@@ -2,7 +2,7 @@ language: java
 
 deploy:
   provider: releases
-  api_key: "1686219cc90398fed94c8f80126be649e9678a34"
+  api_key: $DEPLOYKEY
   file: "target/level-maker-1.0-SNAPSHOT.jar"
   skip_cleanup: true
   on:
