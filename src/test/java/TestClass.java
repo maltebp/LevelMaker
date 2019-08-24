@@ -10,5 +10,4 @@ class TestClass {
         assertTrue(false);
 
     }
-
 }
