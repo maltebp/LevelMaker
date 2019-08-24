@@ -8,8 +8,30 @@
     <artifactId>level-maker</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+
+    <!-- Test Setup (https://www.mkyong.com/maven/how-to-run-unit-test-with-maven/) -->
+    <dependencies>
+        <!-- junit 5, unit test -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.3.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
     <build>
         <plugins>
+
+            <!-- Test Setup (https://www.mkyong.com/maven/how-to-run-unit-test-with-maven/) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+            </plugin>
+
+            <!--For building jar-->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
 
