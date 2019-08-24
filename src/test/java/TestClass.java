@@ -7,7 +7,7 @@ class TestClass {
     @Test
     void test(){
 
-        assertTrue(true);
+        assertTrue(false);
 
     }
 
