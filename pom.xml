@@ -12,13 +12,6 @@
         <encoding>UTF-8</encoding>
     </properties>
 
-    <scm>
-        <connection>scm:git:git@github.com:maltebp/LevelMaker.git</connection>
-        <developerConnection>scm:git:git@github.com:maltebp/LevelMaker.git</developerConnection>
-        <url>https://github.com/maltebp/LevelMaker</url>
-        <tag>v@{project.version}</tag>
-    </scm>
-
 
     <!-- Test Setup (https://www.mkyong.com/maven/how-to-run-unit-test-with-maven/) -->
     <dependencies>
@@ -76,7 +69,6 @@
                     <preparationGoals>package</preparationGoals>
                     <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
-                    <remoteTagging>false</remoteTagging>
                 </configuration>
             </plugin>
         </plugins>
