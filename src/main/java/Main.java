@@ -1,6 +1,11 @@
+import controller.Manager;
+
 public class Main {
 
+    /** Just initializes the Manager */
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Manager manager = new Manager();
+
+        manager.startProgram();
     }
 }
