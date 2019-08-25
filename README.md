@@ -18,3 +18,6 @@ A small top-down shooter game, where you create your own levels with the build-i
 
 ## The Project
 A small personal hobby project, motivated by the interest in making an "level-editor" including "level-files" that may be shared between computers.
+
+#### Branches
+The master branch consists, at all times, of a release candidate, while development branch may be in a non-playable-state.
