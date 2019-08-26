@@ -11,12 +11,20 @@ public class Manager {
 
 
     public void startProgram(){
-        scene = new MainMenu();
-        renderer = new Renderer(scene);
+        renderer = new Renderer();
+
+        switchScene( new MainMenu());
     }
 
     public void switchScene(Scene scene){
+        this.scene = scene;
+        scene.setManager(this);
 
+        renderer.setScene(scene);
+    }
+
+    public void exitProgram(){
+        System.exit(0);
     }
 
 }

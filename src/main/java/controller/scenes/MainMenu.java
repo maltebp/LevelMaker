@@ -18,7 +18,7 @@ public class MainMenu extends Scene{
     private int selected = 0;
     private MenuList menu;
 
-    public MainMenu(){
+    public MainMenu(  ){
         menu = new MenuList();
 
 
@@ -96,6 +96,9 @@ public class MainMenu extends Scene{
             case KeyEvent.VK_ENTER:
                 menu.optionIsChosen();
                 break;
+            case KeyEvent.VK_ESCAPE:
+                manager.exitProgram();
+                break;
         }
     }
 
@@ -104,7 +107,6 @@ public class MainMenu extends Scene{
     public void keyReleased(KeyEvent e) {
 
     }
-
 
     private enum MENU_OPTION{
         PLAY,

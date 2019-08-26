@@ -1,9 +1,18 @@
 package controller.scenes;
 
+import controller.Manager;
+
 import java.awt.*;
 import java.awt.event.KeyListener;
 
 public abstract class Scene implements KeyListener {
+
+    protected Manager manager = null;
+
+    public void setManager(Manager manager){
+        this.manager = manager;
+    }
+
     public abstract void render(Graphics2D graphics, Dimension dimension);
     public abstract void keypress();
     public abstract void simulate();

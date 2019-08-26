@@ -17,8 +17,7 @@ public class Renderer extends JPanel {
     private Dimension screen;
     private JFrame frame;
 
-    public Renderer(Scene scene) {
-
+    public Renderer() {
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,20 +31,17 @@ public class Renderer extends JPanel {
         frame.pack(); // Not sure why this is necessary
         frame.setVisible(true);
 
-        setScene(scene);
-
-        startRender();
     }
 
 
     public void setScene(Scene scene){
-
         if(this.scene != null){
             frame.removeKeyListener(this.scene);
         }
 
         this.scene = scene;
         frame.addKeyListener(scene);
+        if(!render) startRender();
     }
 
     private void startRender(){
