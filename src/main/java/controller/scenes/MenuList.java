@@ -25,7 +25,6 @@ public class MenuList {
     }
 
     public void setHoveredOption(int id) {
-        System.out.println("Setting hovered option to "+id);
 
         if(id >= options.size() || id < 0){
             throw new IndexOutOfBoundsException();

@@ -21,24 +21,17 @@ public class MainMenu extends Scene{
     public MainMenu(  ){
         menu = new MenuList();
 
-
-        for(int i=0; i<5; i++){
-            final String label = "Option "+(i+1);
-            menu.addOption( label, () ->
-                    System.out.println(label + " chosen") );
-        }
-
-        /*menu.addOption("Play", () -> {
-            System.out.println("Play game!");
+        menu.addOption("Play", () -> {
+            System.out.println("Option chosen: Play");
         });
 
         menu.addOption("Editor", () -> {
-            System.out.println("Starting editor!");
+            System.out.println("Option chosen: Editor");
         });
 
         menu.addOption("Settings", () ->
-                System.out.println("Opening settings!")
-        );*/
+                System.out.println("Option chosen: Settings")
+        );
     }
 
     
