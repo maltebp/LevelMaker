@@ -18,7 +18,7 @@ public class Renderer extends JPanel {
     private JFrame frame;
 
     public Renderer(Scene scene) {
-        this.scene = scene;
+
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,12 +32,25 @@ public class Renderer extends JPanel {
         frame.pack(); // Not sure why this is necessary
         frame.setVisible(true);
 
+        setScene(scene);
+
         startRender();
     }
 
 
+    public void setScene(Scene scene){
+
+        if(this.scene != null){
+            frame.removeKeyListener(this.scene);
+        }
+
+        this.scene = scene;
+        frame.addKeyListener(scene);
+    }
+
     private void startRender(){
         new Thread( () -> {
+            render = true;
             while(render){
                 try{
                     repaint();
@@ -46,7 +59,7 @@ public class Renderer extends JPanel {
                     e.printStackTrace();
                 }
             }
-        });
+        }).start();
     }
 
     @Override
