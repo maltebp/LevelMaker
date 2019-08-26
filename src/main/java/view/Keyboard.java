@@ -1,4 +1,4 @@
 package view;
 
-public class Keyboard  {
+public class Keyboard {
 }

@@ -11,6 +11,8 @@ public class Renderer extends JPanel {
 
     private static final long RENDER_FREQ = 16; // Milliseconds (equal to 60 fps)
 
+    private boolean render = false;
+
     private Scene scene;
     private Dimension screen;
     private JFrame frame;
@@ -25,15 +27,18 @@ public class Renderer extends JPanel {
         // Getting screen size
         screen = Toolkit.getDefaultToolkit().getScreenSize();
 
-        System.out.printf("Screen dimensions: %dx%d%n", screen.width, screen.height);
-
         //frame.setLocation(  (int) ((screen.width-(fieldWidth*scale))/2),(int) ((screen.height-((fieldHeight+STATS_HEIGHT)*scale))/2)) ; // Center screen
         frame.getContentPane().add(this);
         frame.pack(); // Not sure why this is necessary
         frame.setVisible(true);
 
+        startRender();
+    }
+
+
+    private void startRender(){
         new Thread( () -> {
-            while(true){
+            while(render){
                 try{
                     repaint();
                     sleep(RENDER_FREQ);
