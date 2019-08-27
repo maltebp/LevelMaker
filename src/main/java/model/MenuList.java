@@ -1,4 +1,4 @@
-package controller.scenes;
+package model;
 
 import java.util.LinkedList;
 

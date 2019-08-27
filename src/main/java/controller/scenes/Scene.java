@@ -14,7 +14,6 @@ public abstract class Scene implements KeyListener {
     }
 
     public abstract void render(Graphics2D graphics, Dimension dimension);
-    public abstract void keypress();
     public abstract void simulate();
 
 

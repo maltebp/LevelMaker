@@ -1,6 +1,6 @@
 package controller.scenes;
 
-import org.w3c.dom.css.Rect;
+import model.MenuList;
 import view.VisualSettings;
 
 import java.awt.*;
@@ -16,7 +16,6 @@ public class MainMenu extends Scene{
     private static final double MENU_SCALE = 3;
     private static final double DETAILS_SCALE = 1;
 
-    private int selected = 0;
     private MenuList menu;
 
     public MainMenu(  ){
@@ -24,6 +23,7 @@ public class MainMenu extends Scene{
 
         menu.addOption("Play", () -> {
             System.out.println("Option chosen: Play");
+            manager.switchScene(new Game());
         });
 
         menu.addOption("Editor", () -> {
@@ -33,6 +33,7 @@ public class MainMenu extends Scene{
         menu.addOption("Settings", () ->
                 System.out.println("Option chosen: Settings")
         );
+
     }
 
     
@@ -61,11 +62,6 @@ public class MainMenu extends Scene{
             graphics.setColor( option.isHovered() ? MENU_COLOR_SELECTED : MENU_COLOR );
             drawCenteredString(graphics, option.getTitle(), rectangle, font);
         }
-    }
-
-    @Override
-    public void keypress() {
-
     }
 
     @Override
