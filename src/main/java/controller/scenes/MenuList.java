@@ -91,7 +91,7 @@ public class MenuList {
     }
 
 
-    private interface OptionAction{
+    public interface OptionAction{
         void run();
     }
 
