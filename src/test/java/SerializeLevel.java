@@ -24,8 +24,6 @@ public class SerializeLevel {
 
         Level inputLevel;
 
-        //REMOVE THIS
-
 
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILENAME));
