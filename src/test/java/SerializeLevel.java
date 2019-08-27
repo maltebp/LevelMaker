@@ -26,10 +26,13 @@ public class SerializeLevel {
 
 
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILENAME));
+
+            File file = new File(FILENAME);
+
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
             out.writeObject(outputLevel);
 
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILENAME));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
             inputLevel = (Level) in.readObject();
 
             Cell[][] outputCells = outputLevel.getCells();
@@ -40,6 +43,11 @@ public class SerializeLevel {
                     assertSame( outputCells[x][y], inputCells[x][y] );
                 }
             }
+
+            out.close();
+            in.close();
+
+            file.delete();
 
         }catch(Exception e){
             e.printStackTrace();
