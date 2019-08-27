@@ -1,10 +1,14 @@
 package controller.scenes;
 
+import model.Level;
 import model.MenuList;
 import view.VisualSettings;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+
+import static model.Cell.PLAYER;
+import static model.Cell.WALL;
 
 public class MainMenu extends Scene{
 
@@ -23,7 +27,13 @@ public class MainMenu extends Scene{
 
         menu.addOption("Play", () -> {
             System.out.println("Option chosen: Play");
-            manager.switchScene(new Game());
+
+            Level level = new Level();
+            level.setCell(2,2, PLAYER);
+            level.setCell(4,4, WALL);
+            level.setCell( 12, 2, WALL);
+
+            manager.switchScene(new GameScene(level));
         });
 
         menu.addOption("Editor", () -> {

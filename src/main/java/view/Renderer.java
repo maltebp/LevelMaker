@@ -33,7 +33,6 @@ public class Renderer extends JPanel {
 
     }
 
-
     public void setScene(Scene scene){
         if(this.scene != null){
             frame.removeKeyListener(this.scene);
