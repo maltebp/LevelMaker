@@ -14,6 +14,7 @@ public class MainMenu extends Scene{
     private static final Color MENU_COLOR = Color.BLACK;
     private static final Color MENU_COLOR_SELECTED = Color.RED;
     private static final double MENU_SCALE = 3;
+    private static final double DETAILS_SCALE = 1;
 
     private int selected = 0;
     private MenuList menu;
@@ -44,10 +45,12 @@ public class MainMenu extends Scene{
         graphics.setColor(TITLE_COLOR);
         drawCenteredString( graphics, "Level Maker", new Rectangle(screen.width, (int) (screen.height*0.4)), new Font(VisualSettings.FONT, Font.BOLD, (int) (screen.width/100 * TITLE_SCALE) )  );
         renderMenu(graphics, screen);
+
+        graphics.setColor(MENU_COLOR);
+        drawCenteredString( graphics, "Press escape to exit", new Rectangle(0, (int) (screen.height*0.9), screen.width, (int) (screen.height*0.1)), new Font(VisualSettings.FONT, Font.BOLD, (int) (screen.width/100 * DETAILS_SCALE) )  );
     }
 
     public void renderMenu(Graphics2D graphics, Dimension screen){
-
         double optionHeight = 0.1;
 
         Rectangle rectangle = new Rectangle(0, (int) (screen.height * 0.3), screen.width, (int) (screen.height*optionHeight) );
@@ -58,7 +61,6 @@ public class MainMenu extends Scene{
             graphics.setColor( option.isHovered() ? MENU_COLOR_SELECTED : MENU_COLOR );
             drawCenteredString(graphics, option.getTitle(), rectangle, font);
         }
-
     }
 
     @Override
