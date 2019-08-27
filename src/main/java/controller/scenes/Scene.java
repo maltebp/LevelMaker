@@ -40,4 +40,15 @@ public abstract class Scene implements KeyListener {
         // Draw the String
         g.drawString(text, x, y);
     }
+
+    public void fillCenteredCircle(Graphics g, double x, double y, double diameter){
+        double radius = diameter/2.;
+        int drawX = (int) (x - radius);
+        int drawY = (int) (y - radius);
+        g.fillOval(drawX,drawY, (int) diameter, (int) diameter);
+    }
+    
+    public void fillCenteredCircle(Graphics g, double diameter, Rectangle rect){
+        fillCenteredCircle(g, rect.getCenterX(), rect.getCenterY(), diameter);
+    }
 }

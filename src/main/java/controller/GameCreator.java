@@ -20,7 +20,9 @@ public class GameCreator {
                         game.addWall(new Wall(x,y));
                         break;
                     case PLAYER:
-                        game.setPlayer(new Player(x,y));
+
+                        game.setPlayer(new Player(x+0.5,y+0.5));
+
                         break;
                 }
             }

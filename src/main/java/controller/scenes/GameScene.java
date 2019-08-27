@@ -3,6 +3,8 @@ package controller.scenes;
 import controller.GameCreator;
 import model.Game;
 import model.Level;
+import model.Player;
+import model.Wall;
 import view.VisualSettings;
 
 import java.awt.*;
@@ -17,10 +19,16 @@ public class GameScene extends Scene {
     private static final Color GRID_COLOR = Color.GRAY;
     private static final Color GRID_NUMBER_COLOR = GRID_COLOR;
     private static final double GRID_NUMBER_SCALE = 0.6;
+    private static final Color WALL_COLOR = Color.GRAY;
+    private static final Color PLAYER_COLOR = Color.blue;
+    private static final double PLAYER_SCALE = 0.8;
 
     private Game game;
     private Level level;
+    private boolean renderGrid = false;
     private boolean renderCellNumber = false;
+    private double scale = 1;
+    private Rectangle gameField;
 
     public GameScene(Level level){
         this.level = level;
@@ -28,31 +36,49 @@ public class GameScene extends Scene {
     }
 
 
-
     @Override
     public void render(Graphics2D graphics, Dimension dimension) {
-        renderGrid(graphics, dimension);
+
+        // Calculating game field
+        scale = dimension.height / (double) Y_CELLS;
+        gameField = new Rectangle( (int) ((dimension.width - scale * X_CELLS) / 2.), 0, (int) (scale*X_CELLS), dimension.height );
+
+        if(renderGrid) renderGrid(graphics, dimension);
+        renderWalls(graphics, dimension);
+        renderPlayer(graphics);
+    }
+
+    public void renderPlayer(Graphics2D graphics){
+        Player player = game.getPlayer();
+        graphics.setColor(PLAYER_COLOR);
+        fillCenteredCircle(graphics,gameField.x+player.getX()*scale, gameField.y+player.getY()*scale, PLAYER_SCALE*scale  );
+    }
+
+    public void renderWalls(Graphics2D graphics, Dimension screen){
+        for(Wall wall : game.getWalls() ){
+            graphics.setColor(WALL_COLOR);
+            graphics.fillRect((int) (gameField.x + wall.getX()*scale ),
+                                (int) (wall.getY()*scale),
+                                (int) scale,
+                                (int) scale);
+        }
     }
 
     public void renderGrid(Graphics2D graphics, Dimension screen){
-        int cellSize = screen.height / Y_CELLS;
-        Dimension gameField = new Dimension( cellSize*X_CELLS, cellSize * Y_CELLS );
-
-        int indent = (screen.width-gameField.width)/2;
 
         graphics.setColor(GRID_COLOR);
 
+        // Render vertical lines
         for( int x=0; x<=X_CELLS; x++ ){
-            graphics.drawLine(x*cellSize+indent, 0, x*cellSize+indent, screen.height );
+            graphics.drawLine((int) (x*scale+gameField.x), 0, (int) (x*scale+gameField.x), screen.height );
         }
 
-        int endX = screen.width-indent;
+        // Render horizontal lines
         for( int y=1; y<=X_CELLS; y++ ) {
-            graphics.drawLine(indent, y * cellSize, endX, y * cellSize);
+            graphics.drawLine(gameField.x, (int) (y * scale), gameField.x+gameField.width, (int) (y * scale) );
         }
 
         if( renderCellNumber ){
-
             Font font = new Font(VisualSettings.FONT, Font.PLAIN, (int) (screen.width/100 * GRID_NUMBER_SCALE) );
 
             for(int x=0; x<X_CELLS; x++){
@@ -61,13 +87,15 @@ public class GameScene extends Scene {
                     drawCenteredString(
                             graphics,
                             "("+x+","+y+")",
-                            new Rectangle(x*cellSize+indent, y*cellSize, cellSize, cellSize),
+                            new Rectangle( (int) (x*scale+gameField.x), (int) (y*scale), (int) scale, (int) scale),
                             font
                     );
                 }
             }
         }
     }
+
+
 
     @Override
     public void simulate() {
@@ -82,8 +110,16 @@ public class GameScene extends Scene {
     @Override
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()){
+
+
+            // Activate Grid
             case KeyEvent.VK_C:
-                renderCellNumber = !renderCellNumber;
+                if(!renderGrid) renderGrid = true;
+                else if(!renderCellNumber) renderCellNumber = true;
+                else{
+                    renderGrid = false;
+                    renderCellNumber = false;
+                }
                 break;
         }
     }
