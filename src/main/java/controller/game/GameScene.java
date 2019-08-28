@@ -7,6 +7,7 @@ import model.Level;
 import model.Player;
 import model.Wall;
 import view.VisualSettings;
+import static java.awt.event.KeyEvent.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -25,22 +26,21 @@ public class GameScene extends Scene {
     private static final double PLAYER_SCALE = 0.8;
 
     private Game game;
-    private Level level;
     private boolean renderGrid = false;
     private boolean renderCellNumber = false;
     private double scale = 1;
     private Rectangle gameField;
+    private GameSimulator gameSimulator;
 
 
     public GameScene(Level level){
-        this.level = level;
         game = new GameCreator().createGame(level);
+        gameSimulator = new GameSimulator(game);
     }
 
 
     @Override
     public void render(Graphics2D graphics, Dimension dimension) {
-
         // Calculating game field
         scale = dimension.height / (double) Y_CELLS;
         gameField = new Rectangle( (int) ((dimension.width - scale * X_CELLS) / 2.), 0, (int) (scale*X_CELLS), dimension.height );
@@ -103,7 +103,12 @@ public class GameScene extends Scene {
 
     @Override
     public void simulate() {
-
+        gameSimulator.updatePlayerMovement(
+                keyboard.isPressed(VK_W),
+                keyboard.isPressed(VK_S),
+                keyboard.isPressed(VK_A),
+                keyboard.isPressed(VK_D)
+        );
     }
 
     @Override

@@ -1,6 +1,7 @@
 package controller;
 
 import controller.scenes.Scene;
+import view.Settings;
 
 public class SimulationController {
 
@@ -10,22 +11,19 @@ public class SimulationController {
     private Repeater repeater;
     private Scene scene;
 
-
     public void setScene(Scene scene){
         synchronized (sceneSwitchLock){
+            boolean start = this.scene == null;
             this.scene = scene;
-        }
-    }
 
-    public void start(){
-        if(repeater != null){
-            repeater.stop();
+            if(start) {
+                repeater = new Repeater(Settings.SIMULATION_FREQ, () -> {
+                    synchronized (sceneSwitchLock) {
+                        this.scene.simulate();
+                    }
+                });
+            }
         }
-        repeater = new Repeater(SIM_FREQ, () -> {
-           synchronized (sceneSwitchLock){
-               scene.simulate();
-           }
-        });
     }
 
     public void stop(){

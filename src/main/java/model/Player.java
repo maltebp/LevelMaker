@@ -17,4 +17,12 @@ public class Player {
     public double getY() {
         return y;
     }
+
+    public void adjustX(double adjustment){
+        x += adjustment;
+    }
+
+    public void adjustY(double adjustment){
+        y += adjustment;
+    }
 }
