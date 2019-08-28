@@ -1,17 +1,11 @@
-import controller.Manager;
-import model.Level;
-
-import java.io.File;
-import java.io.OutputStreamWriter;
-
-import static model.Cell.*;
+import controller.SceneController;
 
 public class Main {
 
-    /** Just initializes the Manager */
+    /** Just initializes the SceneController */
     public static void main(String[] args) {
 
-        Manager manager = new Manager();
+        SceneController manager = new SceneController();
 
         manager.startProgram();
     }

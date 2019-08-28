@@ -1,15 +1,20 @@
 package controller.scenes;
 
-import controller.Manager;
+import controller.Keyboard;
+import controller.SceneController;
+import javafx.scene.input.KeyCode;
 
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.awt.*;
 import java.awt.event.KeyListener;
 
-public abstract class Scene implements KeyListener {
+public abstract class Scene{
 
-    protected Manager manager = null;
+    protected SceneController manager = null;
+    protected Keyboard keyboard = null;
 
-    public void setManager(Manager manager){
+
+    public void setManager(SceneController manager){
         this.manager = manager;
     }
 
@@ -47,8 +52,14 @@ public abstract class Scene implements KeyListener {
         int drawY = (int) (y - radius);
         g.fillOval(drawX,drawY, (int) diameter, (int) diameter);
     }
-    
+
     public void fillCenteredCircle(Graphics g, double diameter, Rectangle rect){
         fillCenteredCircle(g, rect.getCenterX(), rect.getCenterY(), diameter);
     }
+
+    public void setKeyboard(Keyboard keyboard) {
+        this.keyboard = keyboard;
+    }
+
+    public abstract void keyPressed(int keyCode);
 }

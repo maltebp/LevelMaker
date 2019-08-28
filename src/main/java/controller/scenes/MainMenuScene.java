@@ -1,5 +1,6 @@
 package controller.scenes;
 
+import controller.game.GameScene;
 import model.Level;
 import model.MenuList;
 import view.VisualSettings;
@@ -10,7 +11,7 @@ import java.awt.event.KeyEvent;
 import static model.Cell.PLAYER;
 import static model.Cell.WALL;
 
-public class MainMenu extends Scene{
+public class MainMenuScene extends Scene{
 
     private static final Color BACKGROUND_COLOR = Color.gray;
     private static final double TITLE_SCALE = 6;
@@ -22,7 +23,7 @@ public class MainMenu extends Scene{
 
     private MenuList menu;
 
-    public MainMenu(  ){
+    public MainMenuScene(  ){
         menu = new MenuList();
 
         menu.addOption("Play", () -> {
@@ -33,7 +34,7 @@ public class MainMenu extends Scene{
             level.setCell(4,4, WALL);
             level.setCell( 12, 2, WALL);
 
-            manager.switchScene(new GameScene(level));
+            manager.setScene(new GameScene(level));
         });
 
         menu.addOption("Editor", () -> {
@@ -80,14 +81,8 @@ public class MainMenu extends Scene{
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()){
+    public void keyPressed(int keyCode) {
+        switch(keyCode){
             case KeyEvent.VK_DOWN:
                 menu.nextOption();
                 break;
@@ -103,15 +98,4 @@ public class MainMenu extends Scene{
         }
     }
 
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
-
-    private enum MENU_OPTION{
-        PLAY,
-        EDITOR,
-        SETTINGS
-    }
 }

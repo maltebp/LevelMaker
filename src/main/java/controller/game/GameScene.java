@@ -1,6 +1,7 @@
-package controller.scenes;
+package controller.game;
 
 import controller.GameCreator;
+import controller.scenes.Scene;
 import model.Game;
 import model.Level;
 import model.Player;
@@ -30,6 +31,7 @@ public class GameScene extends Scene {
     private double scale = 1;
     private Rectangle gameField;
 
+
     public GameScene(Level level){
         this.level = level;
         game = new GameCreator().createGame(level);
@@ -54,6 +56,7 @@ public class GameScene extends Scene {
         fillCenteredCircle(graphics,gameField.x+player.getX()*scale, gameField.y+player.getY()*scale, PLAYER_SCALE*scale  );
     }
 
+
     public void renderWalls(Graphics2D graphics, Dimension screen){
         for(Wall wall : game.getWalls() ){
             graphics.setColor(WALL_COLOR);
@@ -63,6 +66,7 @@ public class GameScene extends Scene {
                                 (int) scale);
         }
     }
+
 
     public void renderGrid(Graphics2D graphics, Dimension screen){
 
@@ -103,14 +107,8 @@ public class GameScene extends Scene {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()){
-
+    public void keyPressed(int keyCode) {
+        switch(keyCode){
 
             // Activate Grid
             case KeyEvent.VK_C:
@@ -122,10 +120,5 @@ public class GameScene extends Scene {
                 }
                 break;
         }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 }
