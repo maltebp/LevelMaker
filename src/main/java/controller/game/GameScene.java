@@ -1,11 +1,13 @@
 package controller.game;
 
 import controller.GameCreator;
+import controller.MyLine;
 import controller.scenes.Scene;
 import model.Game;
 import model.Level;
 import model.Player;
 import model.Wall;
+import view.GameRenderer;
 import view.VisualSettings;
 import static java.awt.event.KeyEvent.*;
 
@@ -21,7 +23,6 @@ public class GameScene extends Scene {
     private static final Color GRID_COLOR = Color.GRAY;
     private static final Color GRID_NUMBER_COLOR = GRID_COLOR;
     private static final double GRID_NUMBER_SCALE = 0.6;
-    private static final Color WALL_COLOR = Color.GRAY;
     private static final Color PLAYER_COLOR = Color.blue;
     private static final double PLAYER_SCALE = 0.8;
 
@@ -31,11 +32,12 @@ public class GameScene extends Scene {
     private double scale = 1;
     private Rectangle gameField;
     private GameSimulator gameSimulator;
-
+    private GameRenderer gameRenderer;
 
     public GameScene(Level level){
         game = new GameCreator().createGame(level);
         gameSimulator = new GameSimulator(game);
+        gameRenderer = new GameRenderer(game);
     }
 
 
@@ -46,8 +48,17 @@ public class GameScene extends Scene {
         gameField = new Rectangle( (int) ((dimension.width - scale * X_CELLS) / 2.), 0, (int) (scale*X_CELLS), dimension.height );
 
         if(renderGrid) renderGrid(graphics, dimension);
-        renderWalls(graphics, dimension);
+        gameRenderer.renderWalls(graphics);
         renderPlayer(graphics);
+        renderLine();
+        gameRenderer.renderPlayerPoints(graphics);
+    }
+
+    private void renderLine() {
+        double x1 = 2;
+        double y1 = 5;
+        double x2 = 10;
+        double y2 = 6;
     }
 
     public void renderPlayer(Graphics2D graphics){
@@ -57,15 +68,7 @@ public class GameScene extends Scene {
     }
 
 
-    public void renderWalls(Graphics2D graphics, Dimension screen){
-        for(Wall wall : game.getWalls() ){
-            graphics.setColor(WALL_COLOR);
-            graphics.fillRect((int) (gameField.x + wall.getX()*scale ),
-                                (int) (wall.getY()*scale),
-                                (int) scale,
-                                (int) scale);
-        }
-    }
+
 
 
     public void renderGrid(Graphics2D graphics, Dimension screen){
@@ -103,12 +106,17 @@ public class GameScene extends Scene {
 
     @Override
     public void simulate() {
+
+        game.getPlayer().clearPoints();
+
         gameSimulator.updatePlayerMovement(
                 keyboard.isPressed(VK_W),
                 keyboard.isPressed(VK_S),
                 keyboard.isPressed(VK_A),
                 keyboard.isPressed(VK_D)
         );
+
+        gameSimulator.detectCollision();
     }
 
     @Override

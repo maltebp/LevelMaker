@@ -1,7 +1,10 @@
 package controller;
 
 import controller.scenes.Scene;
+import javafx.scene.shape.Line;
 import view.Settings;
+
+import java.awt.*;
 
 public class SimulationController {
 
@@ -10,6 +13,12 @@ public class SimulationController {
     private final Object sceneSwitchLock = new Object();
     private Repeater repeater;
     private Scene scene;
+
+    public void test(){
+        Rectangle r;
+        Line line;
+
+    }
 
     public void setScene(Scene scene){
         synchronized (sceneSwitchLock){

@@ -23,7 +23,6 @@ public class RenderingController extends JPanel {
 
     public RenderingController(){
 
-        // Getting screen size
         screen = Toolkit.getDefaultToolkit().getScreenSize();
 
         // Setup JFrame

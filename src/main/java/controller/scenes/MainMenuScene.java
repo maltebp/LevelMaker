@@ -32,7 +32,7 @@ public class MainMenuScene extends Scene{
             Level level = new Level();
             level.setCell(2,2, PLAYER);
             level.setCell(4,4, WALL);
-            level.setCell( 12, 2, WALL);
+            //level.setCell( 12, 2, WALL);
 
             manager.setScene(new GameScene(level));
         });
