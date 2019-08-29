@@ -27,6 +27,7 @@ public class GameScene extends Scene {
     private Game game;
     private boolean renderGrid = false;
     private boolean renderCellNumber = false;
+    private boolean renderMouse = false;
     private double scale = 1;
     private Rectangle gameField;
     private GameSimulator gameSimulator;
@@ -50,6 +51,9 @@ public class GameScene extends Scene {
         renderPlayer(graphics);
         renderLine();
         gameRenderer.renderPlayerPoints(graphics);
+        gameRenderer.renderPlayerAim(graphics);
+        if(renderMouse) gameRenderer.renderMouse(graphics);
+        gameRenderer.renderGameFieldBorder(graphics);
     }
 
     private void renderLine() {
@@ -114,7 +118,7 @@ public class GameScene extends Scene {
                 keyboard.isPressed(VK_D)
         );
 
-        gameSimulator.checkCollision();
+        gameSimulator.updatePlayerFacing(gameRenderer.getMousePosition(), game.getPlayer());
     }
 
     @Override
@@ -122,13 +126,16 @@ public class GameScene extends Scene {
         switch(keyCode){
 
             // Activate Grid
-            case KeyEvent.VK_C:
+            case VK_C:
                 if(!renderGrid) renderGrid = true;
                 else if(!renderCellNumber) renderCellNumber = true;
                 else{
                     renderGrid = false;
                     renderCellNumber = false;
                 }
+                break;
+            case VK_M:
+                renderMouse = !renderMouse;
                 break;
         }
     }

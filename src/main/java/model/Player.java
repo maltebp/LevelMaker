@@ -7,6 +7,7 @@ public class Player {
 
     private double x;
     private double y;
+    private double facing;
 
     public LinkedList<CollisionPoint> getPoints() {
         return points;
@@ -59,5 +60,13 @@ public class Player {
             this.x = x;
             this.y = y;
         }
+    }
+
+    public double getFacing() {
+        return facing;
+    }
+
+    public void setFacing(double facing) {
+        this.facing = facing;
     }
 }

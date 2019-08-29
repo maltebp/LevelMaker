@@ -2,6 +2,7 @@ package controller.game;
 
 import model.Game;
 import model.Player;
+import model.PointD;
 import model.Wall;
 
 import java.awt.*;
@@ -104,6 +105,11 @@ public class GameSimulator {
                 player.setX(startX);
             }
         }
+    }
+
+    public void updatePlayerFacing(PointD mousePos, Player player){
+        double angle = Math.atan2(mousePos.y-player.getY(), mousePos.x-player.getX());
+        player.setFacing(angle);
     }
 
 }
