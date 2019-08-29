@@ -154,5 +154,36 @@ public class GameRenderer {
     }
 
 
+    public void renderLostScreen(Graphics2D graphics) {
+
+        graphics.setColor(LOST_SCREEN_BG_COLOR);
+        graphics.fillRect(0,0, screen.width, screen.height);
+
+        graphics.setColor(LOST_SCREEN_TEXT_COLOR);
+        Font font = new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width* LOST_SCREEN_TITLE_SCALE) );
+
+        Drawer.drawCenteredString(graphics, "YOU LOST", screen.width/2., screen.height*.4, font);
+
+        font = new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width* LOST_SCREEN_TEXT_SCALE) );
+        Drawer.drawCenteredString(graphics, "Press R to retry", screen.width/2., screen.height*0.6, font);
+        Drawer.drawCenteredString(graphics, "Press ENTER to go back to main menu", screen.width/2., screen.height*0.65, font);
+        Drawer.drawCenteredString(graphics, String.format("Time: %.3f seconds", game.getTime()/1000.), screen.width/2., screen.height*0.3, font);
+    }
+
+    public void renderWonScreen(Graphics2D graphics) {
+
+        graphics.setColor(WON_SCREEN_BG_COLOR);
+        graphics.fillRect(0,0, screen.width, screen.height);
+
+        graphics.setColor(WON_SCREEN_TEXT_COLOR);
+        Font font = new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width* WON_SCREEN_TITLE_SCALE) );
+
+        Drawer.drawCenteredString(graphics, "YOU WON", screen.width/2., screen.height*.4, font);
+
+        font = new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width* WON_SCREEN_TEXT_SCALE) );
+        Drawer.drawCenteredString(graphics, "Press ENTER to go back to main menu", screen.width/2., screen.height*0.6, font);
+
+        Drawer.drawCenteredString(graphics, String.format("Time: %.3f seconds", game.getTime()/1000.), screen.width/2., screen.height*0.3, font);
+    }
 
 }

@@ -1,6 +1,7 @@
 package controller.game;
 
 import controller.GameCreator;
+import controller.scenes.MainMenuScene;
 import controller.scenes.Scene;
 import model.Game;
 import model.Level;
@@ -8,6 +9,7 @@ import model.Player;
 import view.GameRenderer;
 import view.VisualSettings;
 import static java.awt.event.KeyEvent.*;
+import static model.Game.GameState.*;
 
 import java.awt.*;
 
@@ -34,6 +36,8 @@ public class GameScene extends Scene {
 
     public GameScene(Level level){
         game = new GameCreator().createGame(level);
+        game.setState(RUNNING);
+        game.setStartTime(System.currentTimeMillis());
         gameSimulator = new GameSimulator(game);
         gameRenderer = new GameRenderer(game);
     }
@@ -53,6 +57,13 @@ public class GameScene extends Scene {
         if(renderMouse) gameRenderer.renderMouse(graphics);
         gameRenderer.renderProjectiles(graphics);
         gameRenderer.renderGameFieldBorder(graphics);
+
+        if( game.getState() == LOST){
+            gameRenderer.renderLostScreen(graphics, System.currentTimeMillis() - game.getStartTime());
+        }
+        if( game.getState() == WON){
+            gameRenderer.renderWonScreen(graphics, System.currentTimeMillis() - game.getStartTime());
+        }
     }
 
 
@@ -101,27 +112,26 @@ public class GameScene extends Scene {
     @Override
     public void simulate() {
 
-        game.getPlayer().clearPoints();
-
-        gameSimulator.updatePlayerMovement(
-                keyboard.isPressed(VK_W),
-                keyboard.isPressed(VK_S),
-                keyboard.isPressed(VK_A),
-                keyboard.isPressed(VK_D)
-        );
-
-        gameSimulator.updatePlayerFacing(gameRenderer.getMousePosition(), game.getPlayer());
-        gameSimulator.updateProjectiles();
-        gameSimulator.updateCooldowns();
-        gameSimulator.updateCannonFacing();
-        gameSimulator.fireCannons();
-        if(mouse.isButtonPressed(1)) gameSimulator.playerShoots();
+        switch(game.getState()){
+            case RUNNING:
+                gameSimulator.updatePlayerMovement(
+                        keyboard.isPressed(VK_W),
+                        keyboard.isPressed(VK_S),
+                        keyboard.isPressed(VK_A),
+                        keyboard.isPressed(VK_D));
+                gameSimulator.updatePlayerFacing(gameRenderer.getMousePosition(), game.getPlayer());
+                gameSimulator.updateProjectiles();
+                gameSimulator.updateCooldowns();
+                gameSimulator.updateCannonFacing();
+                gameSimulator.fireCannons();
+                if(mouse.isButtonPressed(1)) gameSimulator.playerShoots();
+                break;
+        }
     }
 
     @Override
     public void keyPressed(int keyCode) {
         switch(keyCode){
-
             // Activate Grid
             case VK_C:
                 if(!renderGrid) renderGrid = true;
@@ -134,8 +144,18 @@ public class GameScene extends Scene {
             case VK_M:
                 renderMouse = !renderMouse;
                 break;
+            case VK_R:
+                if(game.getState() == LOST) manager.setScene(new GameScene(game.getLevel()));
+                break;
+            case VK_ENTER:
+                if(game.getState() == LOST || game.getState() == WON){
+                    manager.setScene(new MainMenuScene());
+                }
+                break;
         }
     }
+
+
 
     @Override
     public void mousePressed(int button){

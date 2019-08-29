@@ -48,6 +48,10 @@ public class Cannon {
         this.health = health;
     }
 
+    public void adjustHealth(double adjustment){
+        this.health += adjustment;
+    }
+
     public void setPos(PointD pos) {
         this.pos = pos;
     }

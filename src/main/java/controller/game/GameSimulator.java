@@ -1,11 +1,12 @@
 package controller.game;
 
-import javafx.scene.shape.Line;
+
 import model.*;
-
 import java.awt.*;
-import java.util.LinkedList;
 
+import static model.Game.GameState.LOST;
+import static model.Game.GameState.RUNNING;
+import static model.Game.GameState.WON;
 import static view.Settings.*;
 import static view.VisualSettings.*;
 
@@ -30,7 +31,7 @@ public class GameSimulator {
     }
 
 
-    public boolean checkCannonCollision(PointD point, double radius){
+    public Cannon checkCannonCollision(PointD point, double radius){
         for ( Cannon cannon : game.getCannons() ) {
 
             PointD cannonPos = cannon.getPos();
@@ -40,10 +41,10 @@ public class GameSimulator {
 
             double distance = Math.sqrt( Math.pow(dx,2)+Math.pow(dy,2));
 
-            if(distance < (cannon.getScale()+radius)/2) return true;
+            if(distance < (cannon.getScale()+radius)/2) return cannon;
         }
 
-        return false;
+        return null;
     }
 
 
@@ -146,14 +147,22 @@ public class GameSimulator {
                 PointD projectilePos = new PointD(projectile.getX(), projectile.getY());
 
                 if( checkWallCollision(projectilePos, projectile.getScale()/2) || checkFieldCollision(projectilePos, projectile.getScale()/2) ){
-                    projectileHit(projectile);
+                    projectile.hasHit();
                     game.removePlayerProjectile(projectile);
                 }
 
-                if(checkCannonCollision(projectilePos, projectile.getScale()/2)){
-                    projectileHit(projectile);
+                Cannon collidedCannon = checkCannonCollision(projectilePos, projectile.getScale()/2);
+
+                if( collidedCannon != null){
+                    projectile.hasHit();
+                    collidedCannon.adjustHealth(-PLAYER_DAMAGE);
+                    if(collidedCannon.getHealth() <= 0){
+                        game.removeCannon(collidedCannon);
+                        if( game.getCannons().size() <= 0 ){
+                            gameFinished(true);
+                        }
+                    }
                     game.removePlayerProjectile(projectile);
-                    System.out.println("Hit cannon!");
                 }
             }
         }
@@ -165,22 +174,23 @@ public class GameSimulator {
 
                 PointD projectilePos = new PointD(projectile.getX(), projectile.getY());
 
+                // Cannon hits wall
                 if( checkWallCollision(projectilePos, projectile.getScale()/2) || checkFieldCollision(projectilePos, projectile.getScale()/2) ){
-                    projectileHit(projectile);
+                    projectile.hasHit();
                     game.removeCannonProjectile(projectile);
                 }
 
+                // Cannon hits player
                 if(checkPlayerCollision(projectilePos, projectile.getScale()/2)){
-                    projectileHit(projectile);
+                    projectile.hasHit();
+
+                    if(CANNON_DAMAGE_ENABLED){
+                        gameFinished(false);
+                    }
                     game.removeCannonProjectile(projectile);
-                    System.out.println("Hit player");
                 }
             }
         }
-    }
-
-    public void projectileHit(Projectile projectile){
-        projectile.setHasHit(true);
     }
 
 
@@ -247,6 +257,13 @@ public class GameSimulator {
                 ));
 
             }
+        }
+    }
+
+    public void gameFinished(boolean won){
+        if( game.getState() == RUNNING){
+            game.setTime(System.currentTimeMillis()-game.getStartTime());
+            game.setState( won ? WON : LOST);
         }
     }
 }

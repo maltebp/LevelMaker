@@ -27,7 +27,7 @@ public abstract class Scene{
 
 
     /**
-     * Draw a String centered in the middle of a Rectangle.
+     * Drawer a String centered in the middle of a Rectangle.
      *
      * @param g The Graphics instance.
      * @param text The String to draw.
@@ -44,7 +44,7 @@ public abstract class Scene{
         int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
         // Set the font
         g.setFont(font);
-        // Draw the String
+        // Drawer the String
         g.drawString(text, x, y);
     }
 

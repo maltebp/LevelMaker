@@ -2,9 +2,7 @@ package controller;
 
 import model.*;
 
-import static view.Settings.CANNON_COOLDOWN;
-import static view.Settings.CANNON_FACING_VEL;
-import static view.Settings.CANNON_SCALE;
+import static view.Settings.*;
 
 public class GameCreator {
 
@@ -27,7 +25,10 @@ public class GameCreator {
                         game.setPlayer(new Player(x+0.5,y+0.5));
                         break;
                     case CANNON:
-                        game.addCannon( new Cannon( x+0.5,y+0.5, CANNON_SCALE, CANNON_FACING_VEL, CANNON_COOLDOWN) );
+                        Cannon cannon = new Cannon( x+0.5,y+0.5, CANNON_SCALE, CANNON_FACING_VEL, CANNON_COOLDOWN);
+                        cannon.setHealth(CANNON_HEALTH);
+                        game.addCannon(cannon);
+
                         break;
 
                 }
