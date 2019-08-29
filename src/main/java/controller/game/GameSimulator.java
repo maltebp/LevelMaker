@@ -114,8 +114,9 @@ public class GameSimulator {
 
                 PointD projectilePos = new PointD(projectile.getX(), projectile.getY());
 
-                if( checkWallCollision(projectilePos, projectile.getScale()/2) ){
+                if( checkWallCollision(projectilePos, projectile.getScale()/2) || checkFieldCollision(projectilePos, projectile.getScale()/2) ){
                     projectileHit(projectile);
+                    game.removePlayerProjectile(projectile);
                 }
             }
         }

@@ -49,7 +49,7 @@ public class GameScene extends Scene {
         if(renderGrid) renderGrid(graphics, dimension);
         gameRenderer.renderWalls(graphics);
         renderPlayer(graphics);
-        renderLine();
+
         gameRenderer.renderPlayerPoints(graphics);
         gameRenderer.renderPlayerAim(graphics);
         if(renderMouse) gameRenderer.renderMouse(graphics);
@@ -57,12 +57,6 @@ public class GameScene extends Scene {
         gameRenderer.renderGameFieldBorder(graphics);
     }
 
-    private void renderLine() {
-        double x1 = 2;
-        double y1 = 5;
-        double x2 = 10;
-        double y2 = 6;
-    }
 
     public void renderPlayer(Graphics2D graphics){
         Player player = game.getPlayer();

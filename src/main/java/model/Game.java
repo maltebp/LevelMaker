@@ -53,7 +53,7 @@ public class Game {
     }
 
     public LinkedList<Projectile> getPlayerProjectiles(){
-        return playerProjectiles;
+        return new LinkedList<Projectile>(playerProjectiles);
     }
 
     public void removePlayerProjectile(Projectile projectile){
