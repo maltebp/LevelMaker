@@ -1,15 +1,12 @@
 package view;
 
-import model.Game;
-import model.Player;
-import model.Wall;
+import model.*;
 
 import static view.Settings.X_CELLS;
 import static view.Settings.Y_CELLS;
 import static view.VisualSettings.*;
 
 import java.awt.*;
-import model.PointD;
 
 public class GameRenderer {
 
@@ -109,13 +106,35 @@ public class GameRenderer {
     }
 
 
-    //TODO: REMOVE THIS
-    public void fillCenteredCircle(Graphics2D g, double x, double y, double diameter){
-        double radius = diameter/2.;
-        int drawX = (int) (x - radius);
-        int drawY = (int) (y - radius);
-        g.fillOval(drawX,drawY, (int) diameter, (int) diameter);
+    public void renderProjectiles(Graphics2D graphics) {
+        for( Projectile projectile : game.getPlayerProjectiles() ){
+            if( projectile.hasHit() ) graphics.setColor(Color.RED);
+            else graphics.setColor(PLAYER_PROJECTILE_COLOR);
+            fillCenteredCircle(graphics, translate(projectile.getPos()), projectile.getScale()*scale );
+        }
     }
+
+
+    public PointD translate(PointD point){
+        point.x = point.x*scale + gameField.x;
+        point.y = point.y*scale + gameField.y;
+        return point;
+    }
+
+    //TODO: REMOVE THIS
+
+    public void fillCenteredCircle(Graphics2D g, PointD point, double diameter){
+        double radius = diameter/2.;
+        int drawX = (int) (point.x - radius);
+        int drawY = (int) (point.y - radius);
+        g.fillOval(drawX, drawY, (int) diameter, (int) diameter);
+    }
+
+    public void fillCenteredCircle(Graphics2D g, double x, double y, double diameter){
+        fillCenteredCircle(g, new PointD(x,y), diameter
+        );
+    }
+
 
 
 }

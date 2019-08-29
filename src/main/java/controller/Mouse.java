@@ -7,21 +7,23 @@ import java.awt.event.MouseListener;
 
 public class Mouse implements MouseListener {
 
+    private boolean buttonsPressed[] = new boolean[100];
     private Scene scene;
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Button "+e.getButton() + " clicked");
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        buttonsPressed[e.getButton()] = true;
+        scene.mousePressed(e.getButton());
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        buttonsPressed[e.getButton()] = false;
     }
 
     @Override
@@ -32,7 +34,12 @@ public class Mouse implements MouseListener {
     public void mouseExited(MouseEvent e) {
     }
 
+    public boolean isButtonPressed(int button){
+        return buttonsPressed[button];
+    }
+
     public void setScene(Scene scene) {
         this.scene = scene;
+        scene.setMouse(this);
     }
 }

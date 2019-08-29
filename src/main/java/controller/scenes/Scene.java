@@ -1,6 +1,7 @@
 package controller.scenes;
 
 import controller.Keyboard;
+import controller.Mouse;
 import controller.SceneController;
 import javafx.scene.input.KeyCode;
 
@@ -12,6 +13,7 @@ public abstract class Scene{
 
     protected SceneController manager = null;
     protected Keyboard keyboard = null;
+    protected Mouse mouse = null;
 
 
     public void setManager(SceneController manager){
@@ -61,5 +63,11 @@ public abstract class Scene{
         this.keyboard = keyboard;
     }
 
-    public abstract void keyPressed(int keyCode);
+    public void setMouse(Mouse mouse){
+        this.mouse = mouse;
+    }
+
+    public void keyPressed(int keyCode){}
+
+    public void mousePressed(int button){}
 }

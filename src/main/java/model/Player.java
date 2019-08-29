@@ -8,6 +8,7 @@ public class Player {
     private double x;
     private double y;
     private double facing;
+    private long shootCooldown = 0;
 
     public LinkedList<CollisionPoint> getPoints() {
         return points;
@@ -68,5 +69,17 @@ public class Player {
 
     public void setFacing(double facing) {
         this.facing = facing;
+    }
+
+    public long getShootCooldown() {
+        return shootCooldown;
+    }
+
+    public void setShootCooldown(long shootCooldown) {
+        this.shootCooldown = shootCooldown;
+    }
+
+    public void adjustShootCooldown(long adjustment){
+        this.shootCooldown += adjustment;
     }
 }

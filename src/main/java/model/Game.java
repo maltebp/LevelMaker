@@ -10,7 +10,7 @@ public class Game {
     private Player player;
     private LinkedList<Wall> walls = new LinkedList<Wall>();
     private boolean[] moveKeysPressed = new boolean[4];
-
+    private LinkedList<Projectile> playerProjectiles = new LinkedList<>();
 
 
     private int width;
@@ -50,5 +50,17 @@ public class Game {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public LinkedList<Projectile> getPlayerProjectiles(){
+        return playerProjectiles;
+    }
+
+    public void removePlayerProjectile(Projectile projectile){
+        playerProjectiles.remove(projectile);
+    }
+
+    public void addPlayerProjectile(Projectile projectile){
+        playerProjectiles.add(projectile);
     }
 }

@@ -53,6 +53,7 @@ public class GameScene extends Scene {
         gameRenderer.renderPlayerPoints(graphics);
         gameRenderer.renderPlayerAim(graphics);
         if(renderMouse) gameRenderer.renderMouse(graphics);
+        gameRenderer.renderProjectiles(graphics);
         gameRenderer.renderGameFieldBorder(graphics);
     }
 
@@ -119,6 +120,9 @@ public class GameScene extends Scene {
         );
 
         gameSimulator.updatePlayerFacing(gameRenderer.getMousePosition(), game.getPlayer());
+        gameSimulator.updateProjectiles();
+        gameSimulator.updatePlayerShootCooldown();
+        if(mouse.isButtonPressed(1)) gameSimulator.playerShoots();
     }
 
     @Override
@@ -137,6 +141,13 @@ public class GameScene extends Scene {
             case VK_M:
                 renderMouse = !renderMouse;
                 break;
+        }
+    }
+
+    @Override
+    public void mousePressed(int button){
+        if(button == 1){
+            gameSimulator.playerShoots();
         }
     }
 }

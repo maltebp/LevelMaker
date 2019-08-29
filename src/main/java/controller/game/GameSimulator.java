@@ -1,14 +1,13 @@
 package controller.game;
 
-import model.Game;
-import model.Player;
-import model.PointD;
-import model.Wall;
+import model.*;
 
 import java.awt.*;
 import java.util.LinkedList;
 
 import static view.Settings.*;
+import static view.VisualSettings.PLAYER_PROJECTILE_SCALE;
+import static view.VisualSettings.PLAYER_PROJECTILE_VELOCITY;
 import static view.VisualSettings.PLAYER_SCALE;
 
 public class GameSimulator {
@@ -20,54 +19,47 @@ public class GameSimulator {
     }
 
 
-    public boolean checkCollision() {
+    public boolean checkPlayerCollision() {
         Player player = game.getPlayer();
-        LinkedList<Wall> walls = game.getWalls();
+        PointD playerPos = new PointD(player.getX(), player.getY());
 
-        boolean collision = false;
+        boolean collision = checkWallCollision(playerPos, PLAYER_SCALE/2);
 
-        for (Wall wall : walls) {
-            boolean wallCollision = checkWallCollision(player, wall);
-            wall.setIntersected(wallCollision);
-            if(wallCollision){
-                collision = true;
-            }
-        }
-
-        if( checkFieldCollision(player)) collision = true;
+        if( checkFieldCollision(playerPos, PLAYER_SCALE/2)) collision = true;
 
         return collision;
     }
 
-    public boolean checkFieldCollision(Player player){
-        double radius = PLAYER_SCALE/2;
+    public boolean checkFieldCollision(PointD pos, double radius){
 
-        if( player.getY()-radius < 0  ) return true;
-        if( player.getY()+radius > game.getHeight()) return true;
-        if( player.getX()-radius < 0 ) return true;
-        if( player.getX()+radius > game.getWidth()) return true;
+        if( pos.y-radius < 0  ) return true;
+        if( pos.y+radius > game.getHeight()) return true;
+        if( pos.x-radius < 0 ) return true;
+        if( pos.x+radius > game.getWidth()) return true;
 
         return false;
     }
 
 
-    public boolean checkWallCollision(Player player, Wall wall){
-        double wallX = wall.getX()+0.5;
-        double wallY = wall.getY()+0.5;
+    public boolean checkWallCollision(PointD point, double radius){
 
-        double angle = Math.atan2(wallY-player.getY(), wallX-player.getX());
+        for (Wall wall : game.getWalls()) {
+
+            double wallX = wall.getX()+0.5;
+            double wallY = wall.getY()+0.5;
+
+            double angle = Math.atan2(wallY-point.y, wallX-point.x);
 
 
-        double collX = player.getX() + PLAYER_SCALE/2 * Math.cos(angle);
-        double collY = player.getY() + PLAYER_SCALE/2 * Math.sin(angle);
+            double collX = point.x + radius * Math.cos(angle);
+            double collY = point.y + radius * Math.sin(angle);
 
-        player.addPoint(collX, collY);
+            Rectangle wallRect = new Rectangle((int) wall.getX(), (int) wall.getY(), 1, 1);
 
-        //System.out.println("("+player.getX() + ", "+player.getY()+") -> "+"("+collX + ", "+collY+")" + "\t Wall: ("+wall.getX()+", "+wall.getY()+")");
+            if(wallRect.contains(collX, collY)) return true;
+        }
 
-        Rectangle wallRect = new Rectangle((int) wall.getX(), (int) wall.getY(), 1, 1);
-
-        return wallRect.contains(collX, collY);
+        return false;
     }
 
 
@@ -80,28 +72,28 @@ public class GameSimulator {
         if(up){
             double startY = player.getY();
             player.adjustY(-adjustedMoveSpeed);
-            if( checkCollision() ){
+            if( checkPlayerCollision() ){
                 player.setY(startY);
             }
         }
         if(down){
             double startY = player.getY();
             player.adjustY(adjustedMoveSpeed);
-            if( checkCollision() ){
+            if( checkPlayerCollision() ){
                 player.setY(startY);
             }
         }
         if(left){
             double startX = player.getX();
             player.adjustX(-adjustedMoveSpeed);
-            if( checkCollision() ){
+            if( checkPlayerCollision() ){
                 player.setX(startX);
             }
         }
         if(right){
             double startX = player.getX();
             player.adjustX(adjustedMoveSpeed);
-            if( checkCollision() ){
+            if( checkPlayerCollision() ){
                 player.setX(startX);
             }
         }
@@ -112,4 +104,49 @@ public class GameSimulator {
         player.setFacing(angle);
     }
 
+
+    public void updateProjectiles(){
+
+        for( Projectile projectile : game.getPlayerProjectiles() ){
+            if(!projectile.hasHit()){
+                projectile.adjustX(SIMULATION_FREQ/1000. * projectile.getxVel());
+                projectile.adjustY(SIMULATION_FREQ/1000. * projectile.getyVel());
+
+                PointD projectilePos = new PointD(projectile.getX(), projectile.getY());
+
+                if( checkWallCollision(projectilePos, projectile.getScale()/2) ){
+                    projectileHit(projectile);
+                }
+            }
+        }
+    }
+
+    public void projectileHit(Projectile projectile){
+        projectile.setHasHit(true);
+    }
+
+
+    public void updatePlayerShootCooldown(){
+        game.getPlayer().adjustShootCooldown(-SIMULATION_FREQ);
+    }
+
+
+    public void playerShoots(){
+        Player player = game.getPlayer();
+
+        if( player.getShootCooldown() <= 0){
+            double direction = player.getFacing();
+
+            player.setShootCooldown(PLAYER_SHOOT_COOLDOWN);
+
+            game.addPlayerProjectile( new Projectile(
+                    player.getX() + PLAYER_SCALE/2 * Math.cos(direction),
+                    player.getY() + PLAYER_SCALE/2 * Math.sin(direction),
+                    PLAYER_PROJECTILE_SCALE,
+                    direction,
+                    PLAYER_PROJECTILE_VELOCITY * Math.cos(direction),
+                    PLAYER_PROJECTILE_VELOCITY * Math.sin(direction)
+            ));
+        }
+    }
 }

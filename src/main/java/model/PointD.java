@@ -17,4 +17,8 @@ public class PointD {
         x = point.x;
         y = point.y;
     }
+
+    public String toString(){
+        return String.format("(%.2f,%.2f", x, y);
+    }
 }
