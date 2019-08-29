@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 import static model.Cell.PLAYER;
-import static model.Cell.WALL;
+import static model.Cell.*;
 
 public class MainMenuScene extends Scene{
 
@@ -32,6 +32,9 @@ public class MainMenuScene extends Scene{
             Level level = new Level();
             level.setCell(2,2, PLAYER);
             level.setCell(4,4, WALL);
+            level.setCell(10,5, CANNON);
+            level.setCell(8,12, CANNON);
+
             //level.setCell( 12, 2, WALL);
 
             manager.setScene(new GameScene(level));

@@ -18,7 +18,13 @@ public class PointD {
         y = point.y;
     }
 
+    public PointD copy(){
+        return new PointD(x,y);
+    }
+
     public String toString(){
         return String.format("(%.2f,%.2f", x, y);
     }
+
+
 }

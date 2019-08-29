@@ -49,8 +49,7 @@ public class GameScene extends Scene {
         if(renderGrid) renderGrid(graphics, dimension);
         gameRenderer.renderWalls(graphics);
         renderPlayer(graphics);
-
-        gameRenderer.renderPlayerPoints(graphics);
+        gameRenderer.renderCannons(graphics);
         gameRenderer.renderPlayerAim(graphics);
         if(renderMouse) gameRenderer.renderMouse(graphics);
         gameRenderer.renderProjectiles(graphics);
@@ -63,7 +62,6 @@ public class GameScene extends Scene {
         graphics.setColor(PLAYER_COLOR);
         fillCenteredCircle(graphics,gameField.x+player.getX()*scale, gameField.y+player.getY()*scale, PLAYER_SCALE*scale  );
     }
-
 
 
 

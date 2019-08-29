@@ -1,15 +1,12 @@
 package model;
 
-import controller.Repeater;
-import controller.scenes.Scene;
-
 import java.util.LinkedList;
 
 public class Game {
     private Level level;
     private Player player;
     private LinkedList<Wall> walls = new LinkedList<Wall>();
-    private boolean[] moveKeysPressed = new boolean[4];
+    private LinkedList<Cannon> cannons = new LinkedList<>();
     private LinkedList<Projectile> playerProjectiles = new LinkedList<>();
 
 
@@ -34,6 +31,14 @@ public class Game {
 
     public LinkedList<Wall> getWalls(){
         return new LinkedList<>(walls);
+    }
+
+    public void addCannon(Cannon cannon){
+        cannons.add(cannon);
+    }
+
+    public LinkedList<Cannon> getCannons(){
+        return new LinkedList<>(cannons);
     }
 
     public int getWidth() {
@@ -63,4 +68,5 @@ public class Game {
     public void addPlayerProjectile(Projectile projectile){
         playerProjectiles.add(projectile);
     }
+
 }

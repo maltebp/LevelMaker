@@ -71,14 +71,27 @@ public class GameRenderer {
                     (int) scale);
         }
     }
-    public void renderPlayerPoints(Graphics2D graphics){
-        Player player = game.getPlayer();
 
-        graphics.setColor(Color.GREEN);
+    public void renderCannons(Graphics2D graphics){
 
-        /*for( Player.CollisionPoint p : player.getPoints()){
-            fillCenteredCircle(graphics, p.x*scale+gameField.x, p.y*scale+gameField.y, 0.25*scale );
-        }*/
+
+        for( Cannon cannon : game.getCannons() ){
+            PointD translatedPos = translate(cannon.getPos());
+            double translatedScale = cannon.getScale()*scale;
+
+
+            graphics.setColor(CANNON_COLOR);
+            fillCenteredCircle(graphics, translatedPos, translatedScale);
+
+            double aimScale = translatedScale * CANNON_AIM_SCALE;
+
+            double aimX = translatedPos.x + (translatedScale/2-aimScale/2) * Math.cos(cannon.getFacing());
+            double aimY = translatedPos.y + (translatedScale/2 -aimScale/2) * Math.sin(cannon.getFacing());
+
+            graphics.setColor(CANNON_AIM_COLOR);
+            fillCenteredCircle(graphics, aimX, aimY, aimScale);
+        }
+
     }
 
     public void renderPlayerAim(Graphics2D graphics){

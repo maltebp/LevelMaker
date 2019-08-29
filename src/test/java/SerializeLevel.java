@@ -19,7 +19,7 @@ public class SerializeLevel {
         outputLevel.setCell(0,0, PLAYER);
         outputLevel.setCell(15,4, WALL);
         outputLevel.setCell(2,3, GATE);
-        outputLevel.setCell(4,4, CANON);
+        outputLevel.setCell(4,4, CANNON);
         outputLevel.setCell(2,2, LAZER);
 
         Level inputLevel;

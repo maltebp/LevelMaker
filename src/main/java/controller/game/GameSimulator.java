@@ -1,5 +1,6 @@
 package controller.game;
 
+import javafx.scene.shape.Line;
 import model.*;
 
 import java.awt.*;
@@ -29,6 +30,24 @@ public class GameSimulator {
 
         return collision;
     }
+
+
+    public boolean checkCannonCollision(PointD point, double radius){
+        for ( Cannon cannon : game.getCannons() ) {
+
+            PointD cannonPos = cannon.getPos();
+
+            double dx = Math.abs(cannonPos.x - point.x);
+            double dy = Math.abs(cannonPos.y - point.y);
+
+            double distance = Math.sqrt( Math.pow(dx,2)+Math.pow(dy,2));
+
+            if(distance < (cannon.getScale()+radius)/2) return true;
+        }
+
+        return false;
+    }
+
 
     public boolean checkFieldCollision(PointD pos, double radius){
 
@@ -117,6 +136,12 @@ public class GameSimulator {
                 if( checkWallCollision(projectilePos, projectile.getScale()/2) || checkFieldCollision(projectilePos, projectile.getScale()/2) ){
                     projectileHit(projectile);
                     game.removePlayerProjectile(projectile);
+                }
+
+                if(checkCannonCollision(projectilePos, projectile.getScale()/2)){
+                    projectileHit(projectile);
+                    game.removePlayerProjectile(projectile);
+                    System.out.println("Hit cannon!");
                 }
             }
         }

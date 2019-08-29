@@ -2,7 +2,9 @@ package controller;
 
 import model.*;
 
-import static model.Cell.*;
+import static view.Settings.CANNON_COOLDOWN;
+import static view.Settings.CANNON_FACING_VEL;
+import static view.Settings.CANNON_SCALE;
 
 public class GameCreator {
 
@@ -22,10 +24,12 @@ public class GameCreator {
                         game.addWall(new Wall(x,y));
                         break;
                     case PLAYER:
-
                         game.setPlayer(new Player(x+0.5,y+0.5));
-
                         break;
+                    case CANNON:
+                        game.addCannon( new Cannon( x+0.5,y+0.5, CANNON_SCALE, CANNON_FACING_VEL, CANNON_COOLDOWN) );
+                        break;
+
                 }
             }
         }

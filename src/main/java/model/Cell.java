@@ -7,6 +7,6 @@ public enum Cell {
     WALL,
     GATE,
     PLAYER,
-    CANON,
+    CANNON,
     LAZER,
 }
