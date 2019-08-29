@@ -11,12 +11,6 @@ import java.awt.*;
 public class GameRenderer {
 
 
-    // TODO: REMOVE THESE (TEST VAR)
-    private static final Color COLL_COLOR = Color.RED;
-    // ---
-
-
-
     private Game    game;
     private double scale;
     private Dimension screen;
@@ -59,11 +53,8 @@ public class GameRenderer {
 
     public void renderWalls(Graphics2D graphics){
         for(Wall wall : game.getWalls() ){
-            if(wall.isIntersected())
-                graphics.setColor(COLL_COLOR);
-            else
-                graphics.setColor(WALL_COLOR);
 
+            graphics.setColor(WALL_COLOR);
             graphics.fillRect(
                     (int) (gameField.x + wall.getX()*scale ),
                     (int) (wall.getY()*scale),
@@ -159,31 +150,35 @@ public class GameRenderer {
         graphics.setColor(LOST_SCREEN_BG_COLOR);
         graphics.fillRect(0,0, screen.width, screen.height);
 
-        graphics.setColor(LOST_SCREEN_TEXT_COLOR);
-        Font font = new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width* LOST_SCREEN_TITLE_SCALE) );
+        double x = screen.width/2.;
 
-        Drawer.drawCenteredString(graphics, "YOU LOST", screen.width/2., screen.height*.4, font);
+        Drawer drawer = new Drawer(graphics, new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width*LOST_SCREEN_TITLE_SCALE) ) );
+        drawer.setColor(LOST_SCREEN_TEXT_COLOR);
 
-        font = new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width* LOST_SCREEN_TEXT_SCALE) );
-        Drawer.drawCenteredString(graphics, "Press R to retry", screen.width/2., screen.height*0.6, font);
-        Drawer.drawCenteredString(graphics, "Press ENTER to go back to main menu", screen.width/2., screen.height*0.65, font);
-        Drawer.drawCenteredString(graphics, String.format("Time: %.3f seconds", game.getTime()/1000.), screen.width/2., screen.height*0.3, font);
+        drawer.drawString("YOU LOST", x, screen.height*.4);
+
+        drawer.setFontSize( screen.width* LOST_SCREEN_TEXT_SCALE );
+
+        drawer.drawString("Press R to retry", screen.width/2., screen.height*0.6);
+        drawer.drawString( "Press ENTER to go back to main menu", x, screen.height*0.7);
+        drawer.drawString( String.format("Time: %.3f seconds", game.getTime()/1000.), x, screen.height*0.3);
     }
 
     public void renderWonScreen(Graphics2D graphics) {
-
         graphics.setColor(WON_SCREEN_BG_COLOR);
         graphics.fillRect(0,0, screen.width, screen.height);
 
-        graphics.setColor(WON_SCREEN_TEXT_COLOR);
-        Font font = new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width* WON_SCREEN_TITLE_SCALE) );
+        double x = screen.width/2.;
 
-        Drawer.drawCenteredString(graphics, "YOU WON", screen.width/2., screen.height*.4, font);
+        Drawer drawer = new Drawer(graphics, new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width*WON_SCREEN_TITLE_SCALE) ) );
+        drawer.setColor(WON_SCREEN_TEXT_COLOR);
 
-        font = new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width* WON_SCREEN_TEXT_SCALE) );
-        Drawer.drawCenteredString(graphics, "Press ENTER to go back to main menu", screen.width/2., screen.height*0.6, font);
+        drawer.drawString("YOU WON", x, screen.height*.4);
 
-        Drawer.drawCenteredString(graphics, String.format("Time: %.3f seconds", game.getTime()/1000.), screen.width/2., screen.height*0.3, font);
+        drawer.setFontSize( screen.width* WON_SCREEN_TEXT_SCALE );
+
+        drawer.drawString( "Press ENTER to go back to main menu", x, screen.height*0.6);
+        drawer.drawString( String.format("Time: %.3f seconds", game.getTime()/1000.), x, screen.height*0.3);
     }
 
 }

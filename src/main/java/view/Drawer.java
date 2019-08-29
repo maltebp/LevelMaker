@@ -8,19 +8,20 @@ public class Drawer {
 
     private Graphics2D graphics;
     private Font font;
-    private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
+    private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
 
-    public Drawer(Graphics2D graphics){
+    public Drawer(Graphics2D graphics, Font font){
         this.graphics = graphics;
+        this.font = font;
     }
 
     public void setFont(Font font){
         this.font = font;
     }
 
-    public void setFontSize(float size){
-        if(font != null) font = font.deriveFont(size);
+    public void setFontSize(double size){
+        if(font != null) font = font.deriveFont((float)size);
     }
 
     public void setHorizontalAlignment(HorizontalAlignment alignment){
@@ -29,6 +30,10 @@ public class Drawer {
 
     public void setVerticalAlignment(HorizontalAlignment alignment){
         this.horizontalAlignment = alignment;
+    }
+
+    public void setColor(Color color){
+        graphics.setColor(color);
     }
 
 
@@ -47,6 +52,39 @@ public class Drawer {
 
 
     public void drawString(String text, double x, double y){
+        FontMetrics metrics = graphics.getFontMetrics(font);
+        double drawX = 0;
+        double drawY = 0;
+
+        switch (horizontalAlignment){
+            case CENTER:
+                drawX = (x - (metrics.stringWidth(text))/2.);
+                break;
+
+            case LEFT:
+                drawX = x;
+                break;
+
+            case RIGHT:
+                drawX = x-metrics.stringWidth(text);
+                break;
+        }
+
+        switch (verticalAlignment){
+            case CENTER:
+                drawY = (y - (metrics.getHeight())/2.)+metrics.getAscent();
+                break;
+            case TOP:
+                drawY = y;
+                break;
+            case BOTTOM:
+                // Not tested
+                drawY = y - metrics.getHeight() + metrics.getAscent();
+                break;
+        }
+
+        graphics.setFont(font);
+        graphics.drawString(text, (int) drawX, (int) drawY);
     }
 
     public void drawString(String text, PointD pointD){

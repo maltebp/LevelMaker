@@ -59,10 +59,10 @@ public class GameScene extends Scene {
         gameRenderer.renderGameFieldBorder(graphics);
 
         if( game.getState() == LOST){
-            gameRenderer.renderLostScreen(graphics, System.currentTimeMillis() - game.getStartTime());
+            gameRenderer.renderLostScreen(graphics);
         }
         if( game.getState() == WON){
-            gameRenderer.renderWonScreen(graphics, System.currentTimeMillis() - game.getStartTime());
+            gameRenderer.renderWonScreen(graphics);
         }
     }
 
