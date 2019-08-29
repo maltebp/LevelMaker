@@ -125,6 +125,11 @@ public class GameRenderer {
             else graphics.setColor(PLAYER_PROJECTILE_COLOR);
             fillCenteredCircle(graphics, translate(projectile.getPos()), projectile.getScale()*scale );
         }
+
+        for( Projectile projectile : game.getCannonProjectiles() ){
+            graphics.setColor(CANNON_PROJECTILE_COLOR);
+            fillCenteredCircle(graphics, translate(projectile.getPos()), projectile.getScale()*scale );
+        }
     }
 
 

@@ -7,9 +7,7 @@ import java.awt.*;
 import java.util.LinkedList;
 
 import static view.Settings.*;
-import static view.VisualSettings.PLAYER_PROJECTILE_SCALE;
-import static view.VisualSettings.PLAYER_PROJECTILE_VELOCITY;
-import static view.VisualSettings.PLAYER_SCALE;
+import static view.VisualSettings.*;
 
 public class GameSimulator {
 
@@ -46,6 +44,19 @@ public class GameSimulator {
         }
 
         return false;
+    }
+
+
+    public boolean checkPlayerCollision(PointD point, double radius){
+        Player player = game.getPlayer();
+
+
+        double dx = Math.abs(player.getX() - point.x);
+        double dy = Math.abs(player.getY() - point.y);
+
+        double distance = Math.sqrt( Math.pow(dx,2)+Math.pow(dy,2));
+
+        return distance < (PLAYER_SCALE+radius)/2;
     }
 
 
@@ -126,6 +137,7 @@ public class GameSimulator {
 
     public void updateProjectiles(){
 
+
         for( Projectile projectile : game.getPlayerProjectiles() ){
             if(!projectile.hasHit()){
                 projectile.adjustX(SIMULATION_FREQ/1000. * projectile.getxVel());
@@ -145,6 +157,26 @@ public class GameSimulator {
                 }
             }
         }
+
+        for( Projectile projectile : game.getCannonProjectiles() ){
+            if(!projectile.hasHit()){
+                projectile.adjustX(SIMULATION_FREQ/1000. * projectile.getxVel());
+                projectile.adjustY(SIMULATION_FREQ/1000. * projectile.getyVel());
+
+                PointD projectilePos = new PointD(projectile.getX(), projectile.getY());
+
+                if( checkWallCollision(projectilePos, projectile.getScale()/2) || checkFieldCollision(projectilePos, projectile.getScale()/2) ){
+                    projectileHit(projectile);
+                    game.removeCannonProjectile(projectile);
+                }
+
+                if(checkPlayerCollision(projectilePos, projectile.getScale()/2)){
+                    projectileHit(projectile);
+                    game.removeCannonProjectile(projectile);
+                    System.out.println("Hit player");
+                }
+            }
+        }
     }
 
     public void projectileHit(Projectile projectile){
@@ -152,8 +184,29 @@ public class GameSimulator {
     }
 
 
-    public void updatePlayerShootCooldown(){
+    public void updateCannonFacing(){
+        for(Cannon cannon : game.getCannons() ){
+            Player player = game.getPlayer();
+            if( cannonPlayerDistance(cannon) < CANNON_AIM_DISTANCE ){
+                cannon.setFacing(Math.atan2(player.getY()-cannon.getY(), player.getX()-cannon.getX()));
+            }
+        }
+    }
+
+    public double cannonPlayerDistance(Cannon cannon){
+        Player player = game.getPlayer();
+
+        double dx = Math.abs(player.getX() - cannon.getX());
+        double dy = Math.abs(player.getY() - cannon.getY());
+
+        return Math.sqrt( Math.pow(dx,2)+Math.pow(dy,2));
+    }
+
+    public void updateCooldowns(){
         game.getPlayer().adjustShootCooldown(-SIMULATION_FREQ);
+        for(Cannon cannon : game.getCannons() ){
+            if(cannon.getCooldown()>0 ) cannon.adjustRemainingCooldown(-SIMULATION_FREQ);
+        }
     }
 
 
@@ -173,6 +226,27 @@ public class GameSimulator {
                     PLAYER_PROJECTILE_VELOCITY * Math.cos(direction),
                     PLAYER_PROJECTILE_VELOCITY * Math.sin(direction)
             ));
+        }
+    }
+
+    public void fireCannons(){
+
+        for( Cannon cannon : game.getCannons() ){
+            if(cannon.getRemainingCooldown() <= 0 && cannonPlayerDistance(cannon) < CANNON_AIM_DISTANCE){
+                double direction = cannon.getFacing();
+
+                cannon.setRemainingCooldown((cannon.getCooldown()));
+
+                game.addCannonProjectile( new Projectile(
+                         cannon.getX()+ cannon.getScale()/2 * Math.cos(direction),
+                         cannon.getY() + cannon.getScale()/2 * Math.sin(direction),
+                        CANNON_PROJECTILE_SCALE,
+                        direction,
+                        CANNON_PROJECTILE_VELOCITY * Math.cos(direction),
+                        CANNON_PROJECTILE_VELOCITY * Math.sin(direction)
+                ));
+
+            }
         }
     }
 }

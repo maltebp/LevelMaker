@@ -8,6 +8,7 @@ public class Game {
     private LinkedList<Wall> walls = new LinkedList<Wall>();
     private LinkedList<Cannon> cannons = new LinkedList<>();
     private LinkedList<Projectile> playerProjectiles = new LinkedList<>();
+    private LinkedList<Projectile> cannonProjectiles = new LinkedList<>();
 
 
     private int width;
@@ -58,7 +59,7 @@ public class Game {
     }
 
     public LinkedList<Projectile> getPlayerProjectiles(){
-        return new LinkedList<Projectile>(playerProjectiles);
+        return new LinkedList<>(playerProjectiles);
     }
 
     public void removePlayerProjectile(Projectile projectile){
@@ -67,6 +68,19 @@ public class Game {
 
     public void addPlayerProjectile(Projectile projectile){
         playerProjectiles.add(projectile);
+    }
+
+
+    public LinkedList<Projectile> getCannonProjectiles(){
+        return new LinkedList<>(cannonProjectiles);
+    }
+
+    public void removeCannonProjectile(Projectile projectile){
+        cannonProjectiles.remove(projectile);
+    }
+
+    public void addCannonProjectile(Projectile projectile){
+        cannonProjectiles.add(projectile);
     }
 
 }

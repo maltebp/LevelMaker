@@ -10,7 +10,6 @@ import view.VisualSettings;
 import static java.awt.event.KeyEvent.*;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 import static view.Settings.X_CELLS;
 import static view.Settings.Y_CELLS;
@@ -113,7 +112,9 @@ public class GameScene extends Scene {
 
         gameSimulator.updatePlayerFacing(gameRenderer.getMousePosition(), game.getPlayer());
         gameSimulator.updateProjectiles();
-        gameSimulator.updatePlayerShootCooldown();
+        gameSimulator.updateCooldowns();
+        gameSimulator.updateCannonFacing();
+        gameSimulator.fireCannons();
         if(mouse.isButtonPressed(1)) gameSimulator.playerShoots();
     }
 
