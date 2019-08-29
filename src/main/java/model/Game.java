@@ -11,6 +11,11 @@ public class Game {
     private LinkedList<Wall> walls = new LinkedList<Wall>();
     private boolean[] moveKeysPressed = new boolean[4];
 
+
+
+    private int width;
+    private int height;
+
     public Game(Level level){
         this.level = level;
     }
@@ -29,5 +34,21 @@ public class Game {
 
     public LinkedList<Wall> getWalls(){
         return new LinkedList<>(walls);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

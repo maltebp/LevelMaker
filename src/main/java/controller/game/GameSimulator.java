@@ -1,14 +1,11 @@
 package controller.game;
 
-import com.sun.javafx.geom.Vec2d;
-import javafx.scene.shape.Line;
 import model.Game;
 import model.Player;
 import model.Wall;
 
 import java.awt.*;
 import java.util.LinkedList;
-import java.util.Vector;
 
 import static view.Settings.*;
 import static view.VisualSettings.PLAYER_SCALE;
@@ -22,24 +19,43 @@ public class GameSimulator {
     }
 
 
-    public void detectCollision() {
+    public boolean checkCollision() {
         Player player = game.getPlayer();
         LinkedList<Wall> walls = game.getWalls();
 
+        boolean collision = false;
+
         for (Wall wall : walls) {
-            wall.setIntersected(detectWallCollision(player, wall));
+            boolean wallCollision = checkWallCollision(player, wall);
+            wall.setIntersected(wallCollision);
+            if(wallCollision){
+                collision = true;
+            }
         }
+
+        if( checkFieldCollision(player)) collision = true;
+
+        return collision;
+    }
+
+    public boolean checkFieldCollision(Player player){
+        double radius = PLAYER_SCALE/2;
+
+        if( player.getY()-radius < 0  ) return true;
+        if( player.getY()+radius > game.getHeight()) return true;
+        if( player.getX()-radius < 0 ) return true;
+        if( player.getX()+radius > game.getWidth()) return true;
+
+        return false;
     }
 
 
-    public boolean detectWallCollision(Player player, Wall wall){
+    public boolean checkWallCollision(Player player, Wall wall){
         double wallX = wall.getX()+0.5;
         double wallY = wall.getY()+0.5;
 
         double angle = Math.atan2(wallY-player.getY(), wallX-player.getX());
 
-
-        System.out.println("Angle: "+angle);
 
         double collX = player.getX() + PLAYER_SCALE/2 * Math.cos(angle);
         double collY = player.getY() + PLAYER_SCALE/2 * Math.sin(angle);
@@ -60,10 +76,34 @@ public class GameSimulator {
 
         double adjustedMoveSpeed = SIMULATION_FREQ/1000. * PLAYER_MOVESPEED;
 
-        if(up) player.adjustY(-adjustedMoveSpeed);
-        if(down) player.adjustY(adjustedMoveSpeed);
-        if(left) player.adjustX(-adjustedMoveSpeed);
-        if(right) player.adjustX(adjustedMoveSpeed);
+        if(up){
+            double startY = player.getY();
+            player.adjustY(-adjustedMoveSpeed);
+            if( checkCollision() ){
+                player.setY(startY);
+            }
+        }
+        if(down){
+            double startY = player.getY();
+            player.adjustY(adjustedMoveSpeed);
+            if( checkCollision() ){
+                player.setY(startY);
+            }
+        }
+        if(left){
+            double startX = player.getX();
+            player.adjustX(-adjustedMoveSpeed);
+            if( checkCollision() ){
+                player.setX(startX);
+            }
+        }
+        if(right){
+            double startX = player.getX();
+            player.adjustX(adjustedMoveSpeed);
+            if( checkCollision() ){
+                player.setX(startX);
+            }
+        }
     }
 
 }

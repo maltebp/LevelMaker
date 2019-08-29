@@ -10,6 +10,8 @@ public class GameCreator {
 
         Game game = new Game(level);
         Cell[][] cells = level.getCells();
+        game.setWidth(cells.length);
+        game.setHeight(cells[0].length);
 
         for(int x=0; x<cells.length; x++){
             for( int y=0; y<cells[x].length; y++){

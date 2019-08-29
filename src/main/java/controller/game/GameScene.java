@@ -1,12 +1,10 @@
 package controller.game;
 
 import controller.GameCreator;
-import controller.MyLine;
 import controller.scenes.Scene;
 import model.Game;
 import model.Level;
 import model.Player;
-import model.Wall;
 import view.GameRenderer;
 import view.VisualSettings;
 import static java.awt.event.KeyEvent.*;
@@ -116,7 +114,7 @@ public class GameScene extends Scene {
                 keyboard.isPressed(VK_D)
         );
 
-        gameSimulator.detectCollision();
+        gameSimulator.checkCollision();
     }
 
     @Override

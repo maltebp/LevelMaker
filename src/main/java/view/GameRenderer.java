@@ -19,7 +19,6 @@ public class GameRenderer {
 
 
 
-
     private Game game;
     private double scale;
     private Dimension screen;
@@ -50,7 +49,6 @@ public class GameRenderer {
                     (int) scale);
         }
     }
-
     public void renderPlayerPoints(Graphics2D graphics){
         Player player = game.getPlayer();
 
