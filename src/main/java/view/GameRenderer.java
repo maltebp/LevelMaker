@@ -2,6 +2,7 @@ package view;
 
 import model.*;
 import model.game.*;
+import settings.VisualSettings;
 
 import static settings.Settings.*;
 import static settings.VisualSettings.*;
@@ -26,6 +27,46 @@ public class GameRenderer {
         scale = screen.height / (double) Y_CELLS;
         gameField = new Rectangle( (int) ((screen.width - scale * X_CELLS) / 2.), 0, (int) (scale*X_CELLS), screen.height );
     }
+
+
+    public void renderPlayer(Graphics2D graphics){
+        Player player = game.getPlayer();
+        graphics.setColor(PLAYER_COLOR);
+        fillCenteredCircle(graphics,gameField.x+player.getX()*scale, gameField.y+player.getY()*scale, PLAYER_SCALE*scale  );
+    }
+
+
+    public void renderGrid(Graphics2D graphics, Dimension screen){
+
+        graphics.setColor(GRID_COLOR);
+
+        // Render vertical lines
+        for( int x=0; x<=X_CELLS; x++ ){
+            graphics.drawLine((int) (x*scale+gameField.x), 0, (int) (x*scale+gameField.x), screen.height );
+        }
+
+        // Render horizontal lines
+        for( int y=1; y<=X_CELLS; y++ ) {
+            graphics.drawLine(gameField.x, (int) (y * scale), gameField.x+gameField.width, (int) (y * scale) );
+        }
+    }
+
+    public void renderGridNumber(Graphics2D graphics){
+        Font font = new Font(VisualSettings.FONT, Font.PLAIN, (int) (screen.width/100 * GRID_NUMBER_SCALE) );
+
+        for(int x=0; x<X_CELLS; x++){
+            for( int y=0; y<Y_CELLS; y++){
+
+                Drawer.drawCenteredString(
+                        graphics,
+                        "("+x+","+y+")",
+                        new Rectangle( (int) (x*scale+gameField.x), (int) (y*scale), (int) scale, (int) scale),
+                        font
+                );
+            }
+        }
+    }
+
 
     /** Converts mouse pos into the game field area */
     public PointD getMousePosition(){

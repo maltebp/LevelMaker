@@ -4,7 +4,6 @@ import controller.MainMenuScene;
 import controller.Scene;
 import model.game.Game;
 import model.editor.Level;
-import model.game.Player;
 import view.GameRenderer;
 import settings.VisualSettings;
 import static java.awt.event.KeyEvent.*;
@@ -12,17 +11,12 @@ import static model.game.Game.GameState.*;
 
 import java.awt.*;
 
-
 import static settings.Settings.*;
 
 public class GameScene extends Scene {
 
-    private static final Color BACKGROUND_COLOR = Color.lightGray;
-    private static final Color GRID_COLOR = Color.GRAY;
-    private static final Color GRID_NUMBER_COLOR = GRID_COLOR;
-    private static final double GRID_NUMBER_SCALE = 0.6;
-    private static final Color PLAYER_COLOR = Color.blue;
-    private static final double PLAYER_SCALE = 0.8;
+
+
 
     private Game game;
     private boolean renderGrid = false;
@@ -48,9 +42,10 @@ public class GameScene extends Scene {
         scale = dimension.height / (double) Y_CELLS;
         gameField = new Rectangle( (int) ((dimension.width - scale * X_CELLS) / 2.), 0, (int) (scale*X_CELLS), dimension.height );
 
-        if(renderGrid) renderGrid(graphics, dimension);
+        if(renderGrid) gameRenderer.renderGrid(graphics, dimension);
+        if(renderCellNumber) gameRenderer.renderGridNumber(graphics);
         gameRenderer.renderWalls(graphics);
-        renderPlayer(graphics);
+        gameRenderer.renderPlayer(graphics);
         gameRenderer.renderCannons(graphics);
         gameRenderer.renderPlayerAim(graphics);
         if(renderMouse) gameRenderer.renderMouse(graphics);
@@ -62,47 +57,6 @@ public class GameScene extends Scene {
         }
         if( game.getState() == WON){
             gameRenderer.renderWonScreen(graphics);
-        }
-    }
-
-
-    public void renderPlayer(Graphics2D graphics){
-        Player player = game.getPlayer();
-        graphics.setColor(PLAYER_COLOR);
-        fillCenteredCircle(graphics,gameField.x+player.getX()*scale, gameField.y+player.getY()*scale, PLAYER_SCALE*scale  );
-    }
-
-
-
-
-    public void renderGrid(Graphics2D graphics, Dimension screen){
-
-        graphics.setColor(GRID_COLOR);
-
-        // Render vertical lines
-        for( int x=0; x<=X_CELLS; x++ ){
-            graphics.drawLine((int) (x*scale+gameField.x), 0, (int) (x*scale+gameField.x), screen.height );
-        }
-
-        // Render horizontal lines
-        for( int y=1; y<=X_CELLS; y++ ) {
-            graphics.drawLine(gameField.x, (int) (y * scale), gameField.x+gameField.width, (int) (y * scale) );
-        }
-
-        if( renderCellNumber ){
-            Font font = new Font(VisualSettings.FONT, Font.PLAIN, (int) (screen.width/100 * GRID_NUMBER_SCALE) );
-
-            for(int x=0; x<X_CELLS; x++){
-                for( int y=0; y<Y_CELLS; y++){
-
-                    drawCenteredString(
-                            graphics,
-                            "("+x+","+y+")",
-                            new Rectangle( (int) (x*scale+gameField.x), (int) (y*scale), (int) scale, (int) scale),
-                            font
-                    );
-                }
-            }
         }
     }
 

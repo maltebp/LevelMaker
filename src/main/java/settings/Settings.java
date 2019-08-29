@@ -16,4 +16,5 @@ public class Settings {
     public static final double PLAYER_DAMAGE = 30;//6;
     public static final int X_CELLS = 16;
     public static final int Y_CELLS = 14;
+    public static final double PLAYER_SCALE = 0.8;
 }
