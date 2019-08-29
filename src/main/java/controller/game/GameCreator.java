@@ -1,8 +1,13 @@
-package controller;
+package controller.game;
 
-import model.*;
+import model.editor.Cell;
+import model.editor.Level;
+import model.game.Cannon;
+import model.game.Game;
+import model.game.Player;
+import model.game.Wall;
 
-import static view.Settings.*;
+import static settings.Settings.*;
 
 public class GameCreator {
 

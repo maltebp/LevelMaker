@@ -1,6 +1,6 @@
-package controller;
+package view;
 
-import controller.scenes.Scene;
+import controller.Scene;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

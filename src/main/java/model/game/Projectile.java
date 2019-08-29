@@ -1,4 +1,6 @@
-package model;
+package model.game;
+
+import model.PointD;
 
 public class Projectile {
     private double x;

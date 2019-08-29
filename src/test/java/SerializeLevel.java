@@ -1,11 +1,11 @@
-import model.Cell;
+import model.editor.Cell;
 
-import model.Level;
+import model.editor.Level;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
-import static model.Cell.*;
+import static model.editor.Cell.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SerializeLevel {
@@ -14,7 +14,7 @@ public class SerializeLevel {
 
     @Test
     void serializeDeserialize(){
-        Level outputLevel = new Level();
+        Level outputLevel = new Level(16, 16);
 
         outputLevel.setCell(0,0, PLAYER);
         outputLevel.setCell(15,4, WALL);

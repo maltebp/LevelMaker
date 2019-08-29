@@ -1,17 +1,16 @@
-package controller.scenes;
+package controller;
 
 import controller.game.GameScene;
-import model.Level;
-import model.MenuList;
-import view.VisualSettings;
+import model.editor.Level;
+import static settings.VisualSettings.*;
+import static settings.Settings.*;
+import static model.editor.Cell.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-import static model.Cell.PLAYER;
-import static model.Cell.*;
 
-public class MainMenuScene extends Scene{
+public class MainMenuScene extends Scene {
 
     private static final Color BACKGROUND_COLOR = Color.gray;
     private static final double TITLE_SCALE = 6;
@@ -29,7 +28,7 @@ public class MainMenuScene extends Scene{
         menu.addOption("Play", () -> {
             System.out.println("Option chosen: Play");
 
-            Level level = new Level();
+            Level level = new Level(X_CELLS, Y_CELLS);
             level.setCell(2,2, PLAYER);
             level.setCell(4,4, WALL);
             level.setCell(10,5, CANNON);
@@ -45,7 +44,7 @@ public class MainMenuScene extends Scene{
         });
 
         menu.addOption("Settings", () ->
-                System.out.println("Option chosen: Settings")
+                System.out.println("Option chosen: settings.Settings")
         );
 
     }
@@ -58,18 +57,18 @@ public class MainMenuScene extends Scene{
         graphics.fillRect(0,0, screen.width, screen.height);
 
         graphics.setColor(TITLE_COLOR);
-        drawCenteredString( graphics, "Level Maker", new Rectangle(screen.width, (int) (screen.height*0.4)), new Font(VisualSettings.FONT, Font.BOLD, (int) (screen.width/100 * TITLE_SCALE) )  );
+        drawCenteredString( graphics, "Level Maker", new Rectangle(screen.width, (int) (screen.height*0.4)), new Font(FONT, Font.BOLD, (int) (screen.width/100 * TITLE_SCALE) )  );
         renderMenu(graphics, screen);
 
         graphics.setColor(MENU_COLOR);
-        drawCenteredString( graphics, "Press escape to exit", new Rectangle(0, (int) (screen.height*0.9), screen.width, (int) (screen.height*0.1)), new Font(VisualSettings.FONT, Font.BOLD, (int) (screen.width/100 * DETAILS_SCALE) )  );
+        drawCenteredString( graphics, "Press escape to exit", new Rectangle(0, (int) (screen.height*0.9), screen.width, (int) (screen.height*0.1)), new Font(FONT, Font.BOLD, (int) (screen.width/100 * DETAILS_SCALE) )  );
     }
 
     public void renderMenu(Graphics2D graphics, Dimension screen){
         double optionHeight = 0.1;
 
         Rectangle rectangle = new Rectangle(0, (int) (screen.height * 0.3), screen.width, (int) (screen.height*optionHeight) );
-        Font font = new Font(VisualSettings.FONT, Font.BOLD, (int) (screen.width/100 * MENU_SCALE));
+        Font font = new Font(FONT, Font.BOLD, (int) (screen.width/100 * MENU_SCALE));
 
         for( MenuList.Option option : menu.getOptions()){
             rectangle.translate(0, (int) (optionHeight*screen.height) );

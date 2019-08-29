@@ -1,6 +1,4 @@
-package model;
-
-import java.io.Serializable;
+package model.editor;
 
 public enum Cell {
     EMPTY,

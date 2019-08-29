@@ -1,7 +1,7 @@
 package controller;
 
-import controller.scenes.MainMenuScene;
-import controller.scenes.Scene;
+import view.Keyboard;
+import view.Mouse;
 import view.RenderingController;
 
 public class SceneController {

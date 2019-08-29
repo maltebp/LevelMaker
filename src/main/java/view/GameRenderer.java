@@ -1,17 +1,17 @@
 package view;
 
 import model.*;
+import model.game.*;
 
-import static view.Settings.X_CELLS;
-import static view.Settings.Y_CELLS;
-import static view.VisualSettings.*;
+import static settings.Settings.*;
+import static settings.VisualSettings.*;
 
 import java.awt.*;
 
 public class GameRenderer {
 
 
-    private Game    game;
+    private Game game;
     private double scale;
     private Dimension screen;
     private Rectangle gameField;
@@ -152,7 +152,7 @@ public class GameRenderer {
 
         double x = screen.width/2.;
 
-        Drawer drawer = new Drawer(graphics, new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width*LOST_SCREEN_TITLE_SCALE) ) );
+        Drawer drawer = new Drawer(graphics, new Font( FONT, Font.BOLD, (int) (screen.width*LOST_SCREEN_TITLE_SCALE) ) );
         drawer.setColor(LOST_SCREEN_TEXT_COLOR);
 
         drawer.drawString("YOU LOST", x, screen.height*.4);
@@ -170,7 +170,7 @@ public class GameRenderer {
 
         double x = screen.width/2.;
 
-        Drawer drawer = new Drawer(graphics, new Font( VisualSettings.FONT, Font.BOLD, (int) (screen.width*WON_SCREEN_TITLE_SCALE) ) );
+        Drawer drawer = new Drawer(graphics, new Font( FONT, Font.BOLD, (int) (screen.width*WON_SCREEN_TITLE_SCALE) ) );
         drawer.setColor(WON_SCREEN_TEXT_COLOR);
 
         drawer.drawString("YOU WON", x, screen.height*.4);

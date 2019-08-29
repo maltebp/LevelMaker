@@ -1,20 +1,19 @@
 package controller.game;
 
-import controller.GameCreator;
-import controller.scenes.MainMenuScene;
-import controller.scenes.Scene;
-import model.Game;
-import model.Level;
-import model.Player;
+import controller.MainMenuScene;
+import controller.Scene;
+import model.game.Game;
+import model.editor.Level;
+import model.game.Player;
 import view.GameRenderer;
-import view.VisualSettings;
+import settings.VisualSettings;
 import static java.awt.event.KeyEvent.*;
-import static model.Game.GameState.*;
+import static model.game.Game.GameState.*;
 
 import java.awt.*;
 
-import static view.Settings.X_CELLS;
-import static view.Settings.Y_CELLS;
+
+import static settings.Settings.*;
 
 public class GameScene extends Scene {
 

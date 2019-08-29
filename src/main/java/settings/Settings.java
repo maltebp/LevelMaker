@@ -1,4 +1,4 @@
-package view;
+package settings;
 
 public class Settings {
 

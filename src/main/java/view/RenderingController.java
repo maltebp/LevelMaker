@@ -1,14 +1,12 @@
 package view;
 
+import controller.Scene;
 import controller.Repeater;
-import controller.scenes.Scene;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-
-import static java.lang.Thread.sleep;
 
 public class RenderingController extends JPanel {
 

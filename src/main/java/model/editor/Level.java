@@ -1,16 +1,17 @@
-package model;
+package model.editor;
+
+import model.editor.Cell;
 
 import java.io.Serializable;
 
-import static model.Cell.EMPTY;
-import static view.Settings.X_CELLS;
-import static view.Settings.Y_CELLS;
+import static model.editor.Cell.EMPTY;
 
 public class Level implements Serializable {
 
-    private Cell[][] cells = new Cell[X_CELLS][Y_CELLS];
+    private Cell[][] cells;
 
-    public Level(){
+    public Level(int width, int height){
+        cells = new Cell[width][height];
         for(int x=0; x<cells.length; x++){
             for(int y=0; y<cells[x].length; y++){
                 cells[x][y] = EMPTY;

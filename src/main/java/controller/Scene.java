@@ -1,13 +1,9 @@
-package controller.scenes;
+package controller;
 
-import controller.Keyboard;
-import controller.Mouse;
-import controller.SceneController;
-import javafx.scene.input.KeyCode;
+import view.Keyboard;
+import view.Mouse;
 
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.awt.*;
-import java.awt.event.KeyListener;
 
 public abstract class Scene{
 

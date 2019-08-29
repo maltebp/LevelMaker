@@ -1,4 +1,6 @@
-package model;
+package model.game;
+
+import model.editor.Level;
 
 import java.util.LinkedList;
 
@@ -7,7 +9,7 @@ public class Game {
     private Player player;
     private long startTime;
     private long time;
-    private LinkedList<Wall> walls = new LinkedList<Wall>();
+    private LinkedList<Wall> walls = new LinkedList<>();
     private LinkedList<Cannon> cannons = new LinkedList<>();
     private LinkedList<Projectile> playerProjectiles = new LinkedList<>();
     private LinkedList<Projectile> cannonProjectiles = new LinkedList<>();

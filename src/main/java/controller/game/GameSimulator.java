@@ -2,13 +2,13 @@ package controller.game;
 
 
 import model.*;
+import model.game.*;
+
 import java.awt.*;
 
-import static model.Game.GameState.LOST;
-import static model.Game.GameState.RUNNING;
-import static model.Game.GameState.WON;
-import static view.Settings.*;
-import static view.VisualSettings.*;
+import static model.game.Game.GameState.*;
+import static settings.Settings.*;
+import static settings.VisualSettings.*;
 
 public class GameSimulator {
 

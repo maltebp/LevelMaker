@@ -1,6 +1,7 @@
-package model;
+package model.game;
 
-import java.awt.*;
+
+import model.PointD;
 
 public class Cannon {
 

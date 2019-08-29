@@ -1,22 +1,24 @@
-package model;
+package model.game;
 
-public class Wall extends Entity {
+public class Wall {
 
-    private boolean intersected = false;
-
+    private double x;
+    private double y;
     private double width = 1;
     private double height = 1;
 
-    public void setIntersected(boolean toggle){
-        intersected = toggle;
-    }
-
-    public boolean isIntersected(){
-        return intersected;
-    }
 
     public Wall(double x, double y) {
-        super(x, y);
+        this.x = x;
+        this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 
     public double getCenterX(){
