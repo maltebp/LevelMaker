@@ -1,6 +1,12 @@
+import controller.SceneController;
+
 public class Main {
 
+    /** Just initializes the SceneController */
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+        SceneController manager = new SceneController();
+
+        manager.startProgram();
     }
 }
