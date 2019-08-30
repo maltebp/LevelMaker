@@ -96,7 +96,7 @@ public class Drawer {
     }
 
 
-    // TODO: REMOVE THIS!
+    // TODO: Make this non-static
     public static void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
         // Get the FontMetrics
         FontMetrics metrics = g.getFontMetrics(font);
