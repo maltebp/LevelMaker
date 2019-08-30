@@ -4,14 +4,15 @@ import model.PointD;
 
 import java.awt.*;
 
-public class Drawer {
+public class GraphicsWriter {
 
     private Graphics2D graphics;
     private Font font;
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
 
-    public Drawer(Graphics2D graphics, Font font){
+
+    public GraphicsWriter(Graphics2D graphics, Font font){
         this.graphics = graphics;
         this.font = font;
     }
@@ -106,7 +107,7 @@ public class Drawer {
         int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
         // Set the font
         g.setFont(font);
-        // Drawer the String
+        // GraphicsWriter the String
         g.drawString(text, x, y);
     }
 

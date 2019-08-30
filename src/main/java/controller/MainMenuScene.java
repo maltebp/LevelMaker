@@ -1,8 +1,9 @@
 package controller;
 
+import controller.editor.EditorScene;
 import controller.game.GameScene;
 import model.editor.Level;
-import view.Drawer;
+import view.GraphicsWriter;
 
 import static settings.VisualSettings.*;
 import static settings.Settings.*;
@@ -43,6 +44,7 @@ public class MainMenuScene extends Scene {
 
         menu.addOption("Editor", () -> {
             System.out.println("Option chosen: Editor");
+            manager.setScene(new EditorScene());
         });
 
         menu.addOption("Settings", () ->
@@ -58,7 +60,7 @@ public class MainMenuScene extends Scene {
         graphics.setColor(BACKGROUND_COLOR);
         graphics.fillRect(0,0, screen.width, screen.height);
 
-        Drawer drawer = new Drawer(graphics, new Font(FONT, Font.BOLD, (int) (screen.width/100 * TITLE_SCALE) ) );
+        GraphicsWriter drawer = new GraphicsWriter(graphics, new Font(FONT, Font.BOLD, (int) (screen.width/100 * TITLE_SCALE) ) );
 
         // Title
         drawer.setColor(TITLE_COLOR);

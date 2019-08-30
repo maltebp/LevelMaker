@@ -4,11 +4,13 @@ import model.editor.Cell;
 
 import java.io.Serializable;
 
-import static model.editor.Cell.EMPTY;
+import static model.editor.Cell.*;
 
 public class Level implements Serializable {
 
     private Cell[][] cells;
+    private int spawnX = -1;
+    private int spawnY = -1;
 
     public Level(int width, int height){
         cells = new Cell[width][height];
@@ -20,6 +22,16 @@ public class Level implements Serializable {
     }
 
     public void setCell(int x, int y, Cell cell){
+        if(cell == PLAYER ){
+            if(spawnX != -1) {
+                cells[spawnX][spawnY] = EMPTY;
+            }
+            spawnX = x;
+            spawnY = y;
+        }else if( cells[x][y] == PLAYER ){
+            spawnX = -1;
+            spawnY = -1;
+        }
         cells[x][y] = cell;
     }
 
