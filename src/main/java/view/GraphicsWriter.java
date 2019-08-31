@@ -45,7 +45,7 @@ public class GraphicsWriter {
     public static void drawCenteredString(Graphics g, String text, double x, double y, Font font) {
         FontMetrics metrics = g.getFontMetrics(font);
         int drawX = (int) (x - (metrics.stringWidth(text))/2.);
-        int drawY = (int) (y - (metrics.getHeight())/2.)+metrics.getAscent();
+        int drawY = (int) (y - metrics.getHeight()/2.)+metrics.getAscent();
         g.setFont(font);
         g.drawString(text, drawX, drawY);
     }

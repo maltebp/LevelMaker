@@ -11,6 +11,7 @@ public class Level implements Serializable {
     private Cell[][] cells;
     private int spawnX = -1;
     private int spawnY = -1;
+    private String name = "";
 
     public Level(int width, int height){
         cells = new Cell[width][height];
@@ -19,6 +20,10 @@ public class Level implements Serializable {
                 cells[x][y] = EMPTY;
             }
         }
+    }
+
+    public boolean spawnIsPlaced(){
+        return spawnX>-1 && spawnY>-1;
     }
 
     public void setCell(int x, int y, Cell cell){
@@ -39,4 +44,11 @@ public class Level implements Serializable {
         return cells;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

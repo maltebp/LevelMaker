@@ -43,8 +43,13 @@ public class VisualSettings {
     public static final Color EDITOR_BG_COLOR = Color.lightGray;
     public static final Color EDITOR_EC_BORDER_COLOR = Color.gray;
     public static final double EDITOR_EC_BORDER_WIDTH = 0.5;
-
     public static final Color EDITOR_MOUSE_COLOR = new Color(100,150,200);
+
+    public static final double TEXT_INPUT_TEXT_SCALE = 0.02;
+    public static final Color TEXT_INPUT_TEXT_COLOR = new Color(210,210,180);
+    public static final Color TEXT_INPUT_COLOR = new Color(100,125,150);
+    public static final Color WINDOW_COLOR = new Color(150,175,200);
+    public static final Color WINDOW_BACKGROUND_FADE_COLOR = new Color(0,0,0,100);
 
 
     public static final Color GRID_COLOR = new Color(200,200,200);

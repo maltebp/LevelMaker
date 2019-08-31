@@ -1,14 +1,13 @@
 package controller.editor;
 
+import controller.LevelDAO;
+import controller.MainMenuScene;
 import controller.Scene;
 import model.PointD;
 import model.RectD;
 import model.editor.Cell;
 import model.editor.Editor;
-import view.EditorRenderer;
-import view.EntityRenderer;
-import view.GameFieldRenderer;
-import view.MouseRenderer;
+import view.*;
 
 import static java.awt.event.KeyEvent.*;
 import static model.editor.Cell.*;
@@ -25,13 +24,18 @@ public class EditorScene extends Scene {
     private EditorRenderer renderer = new EditorRenderer(editor);
     private GameFieldRenderer gameFieldRenderer = new GameFieldRenderer();
     private MouseRenderer mouseRenderer = new MouseRenderer();
+    private TextInputRenderer saveWindowRenderer = new TextInputRenderer(20+4);
+
+    private FileNameBuilder nameBuilder = new FileNameBuilder(".ser", 20);
+
+    private boolean renderMouse = true;
+    private boolean renderSaveWindow = false;
 
     private Cell selectedEntity = EMPTY;
 
     public EditorScene(){
-
-
     }
+
 
     @Override
     public void render(Graphics2D graphics, Dimension screen){
@@ -63,53 +67,105 @@ public class EditorScene extends Scene {
         renderer.renderEntityContainers(graphics);
         gameFieldRenderer.renderField(graphics);
         gameFieldRenderer.renderGrid(graphics);
-
         gameFieldRenderer.renderCells(graphics, editor.getLevel().getCells());
 
 
-        EntityRenderer entityRenderer = new EntityRenderer(graphics);
-        PointD mousePos = new PointD(MouseInfo.getPointerInfo().getLocation());
+        if( renderMouse ){
+            EntityRenderer entityRenderer = new EntityRenderer(graphics);
+            PointD mousePos = new PointD(MouseInfo.getPointerInfo().getLocation());
 
-        switch(selectedEntity){
-            case EMPTY:
-                mouseRenderer.renderMouse( graphics, mousePos, scale*0.5);
-                break;
-            case PLAYER:
-                entityRenderer.renderPlayer( mousePos, scale*0.5, 0);
-                break;
-            case WALL:
-                entityRenderer.renderWallCenter( mousePos, scale*0.5);
-                break;
-            case CANNON:
-                entityRenderer.renderCannon( mousePos, scale*0.5, 0);
-                break;
-
+            switch(selectedEntity){
+                case EMPTY:
+                    mouseRenderer.renderMouse( graphics, mousePos, scale*0.5);
+                    break;
+                case PLAYER:
+                    entityRenderer.renderPlayer( mousePos, scale*0.5, 0);
+                    break;
+                case WALL:
+                    entityRenderer.renderWallCenter( mousePos, scale*0.5);
+                    break;
+                case CANNON:
+                    entityRenderer.renderCannon( mousePos, scale*0.5, 0);
+                    break;
+            }
         }
+
+        if( renderSaveWindow ){
+            saveWindowRenderer.setScreenSize(screen);
+            saveWindowRenderer.render(graphics, nameBuilder.getName());
+        }
+
     }
+
 
     @Override
     public void mousePressed(int button) {
-        PointD mousePos = new PointD(MouseInfo.getPointerInfo().getLocation());
-        if( gameFieldRenderer.isInGameField(mousePos)){
-            PointD translatedPos = gameFieldRenderer.translateToField(mousePos);
-            placeEntity(selectedEntity, (int) translatedPos.x, (int) translatedPos.y );
-        }else if( editor.getPlayerContainer().contains(mousePos)){
-            selectedEntity = PLAYER;
-        }else if( editor.getWallContainer().contains(mousePos)){
-            selectedEntity = WALL;
-        }else if( editor.getCannonContainer().contains(mousePos)){
-            selectedEntity = CANNON;
+        if( renderMouse ){
+            PointD mousePos = new PointD(MouseInfo.getPointerInfo().getLocation());
+            if( gameFieldRenderer.isInGameField(mousePos)){
+                PointD translatedPos = gameFieldRenderer.translateToField(mousePos);
+                placeEntity(selectedEntity, (int) translatedPos.x, (int) translatedPos.y );
+            }else if( editor.getPlayerContainer().contains(mousePos)){
+                selectedEntity = PLAYER;
+            }else if( editor.getWallContainer().contains(mousePos)){
+                selectedEntity = WALL;
+            }else if( editor.getCannonContainer().contains(mousePos)){
+                selectedEntity = CANNON;
+            }
         }
     }
 
     @Override
     public void keyPressed(int keyCode) {
 
-        switch(keyCode){
-            case VK_ESCAPE:
-                selectedEntity = EMPTY;
-                break;
+        if( renderSaveWindow ){
+            switch(keyCode){
+                case VK_ESCAPE:
+                    renderSaveWindow = false;
+                    renderMouse = true;
+                    break;
+                case VK_ENTER:
+                    if( nameBuilder.getNameLength() > 0 ){
+                        LevelDAO levelSaver = new LevelDAO();
+                        editor.getLevel().setName(nameBuilder.getName());
+                        levelSaver.saveLevel(editor.getLevel());
+                        manager.setScene(new MainMenuScene());
+                    }
+                    break;
+                case VK_BACK_SPACE:
+                    nameBuilder.removeLastCharacter();
+                    break;
+                default:
+
+                    if( keyCode >= VK_A && keyCode <= VK_Z ){
+                        if(!keyboard.isPressed(VK_SHIFT)){
+                            keyCode += 32; // Changing to small letter
+                        }
+                    }
+
+                    nameBuilder.addCharacter((char) keyCode);
+
+                    break;
+            }
+
+
+        }else{
+            switch(keyCode){
+                case VK_ESCAPE:
+                    selectedEntity = EMPTY;
+                    break;
+                case VK_ENTER:
+                    if( editor.getLevel().spawnIsPlaced() ){
+                        renderSaveWindow = true;
+                        renderMouse = false;
+                        nameBuilder.clearName();
+                    }
+                    break;
+            }
         }
+
+
+
     }
 
     public void placeEntity(Cell cell, int x, int y){

@@ -6,6 +6,12 @@ public class RectD {
     public double height;
     public double width;
 
+    public RectD(){
+        this.pos = new PointD(0,0);
+        this.height = 0;
+        this.width = 0;
+    }
+
     public RectD(PointD pos, double width, double height){
         this.pos = pos.copy();
         this.height = height;
@@ -14,6 +20,11 @@ public class RectD {
 
     public PointD getCenter(){
         return new PointD(pos.x+width/2, pos.y+height/2);
+    }
+
+    public void setCenter(PointD pos){
+        this.pos.x = pos.x-width/2;
+        this.pos.y = pos.y-height/2;
     }
 
     public boolean contains(PointD point){
