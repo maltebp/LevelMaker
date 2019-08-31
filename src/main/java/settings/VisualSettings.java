@@ -7,6 +7,10 @@ import java.awt.*;
 public class VisualSettings {
     public static final String FONT = "Verdana";
 
+
+    public static final Color MENU_COLOR = Color.BLACK;
+    public static final Color MENU_COLOR_SELECTED = Color.RED;
+
     public static final Color WON_SCREEN_BG_COLOR = new Color(0,150,0, 175);
     public static final Color WON_SCREEN_TEXT_COLOR = new Color(255,255,255, 230);
     public static final double WON_SCREEN_TITLE_SCALE = 0.08;
@@ -55,6 +59,8 @@ public class VisualSettings {
     public static final Color GRID_COLOR = new Color(200,200,200);
     public static final double GRID_NUMBER_SCALE = 0.6;
     public static final double GRID_WIDTH = 0.02;
+
+    public static final double LEVEL_MENU_SCALE = 0.02;
 
 
 

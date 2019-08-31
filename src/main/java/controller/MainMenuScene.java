@@ -18,8 +18,7 @@ public class MainMenuScene extends Scene {
     private static final Color BACKGROUND_COLOR = Color.gray;
     private static final double TITLE_SCALE = 6;
     private static final Color TITLE_COLOR = Color.black;
-    private static final Color MENU_COLOR = Color.BLACK;
-    private static final Color MENU_COLOR_SELECTED = Color.RED;
+
     private static final double MENU_SCALE = 3;
     private static final double DETAILS_SCALE = 1;
 
@@ -30,16 +29,7 @@ public class MainMenuScene extends Scene {
 
         menu.addOption("Play", () -> {
             System.out.println("Option chosen: Play");
-
-            Level level = new Level(X_CELLS, Y_CELLS);
-            level.setCell(2,2, PLAYER);
-            level.setCell(4,4, WALL);
-            level.setCell(10,5, CANNON);
-            level.setCell(8,12, CANNON);
-
-            //level.setCell( 12, 2, WALL);
-
-            manager.setScene(new GameScene(level));
+            manager.setScene(new LoadLevelScene());
         });
 
         menu.addOption("Editor", () -> {
