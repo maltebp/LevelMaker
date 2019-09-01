@@ -31,8 +31,7 @@ public class GameRenderer {
 
     public void renderPlayer(Graphics2D graphics){
         Player player = game.getPlayer();
-        graphics.setColor(PLAYER_COLOR);
-        fillCenteredCircle(graphics,gameField.x+player.getX()*scale, gameField.y+player.getY()*scale, PLAYER_SCALE*scale  );
+        new EntityRenderer(graphics).renderPlayer(translate(player.getPos()), scale, player.getFacing());
     }
 
 
@@ -57,7 +56,7 @@ public class GameRenderer {
         for(int x=0; x<X_CELLS; x++){
             for( int y=0; y<Y_CELLS; y++){
 
-                Drawer.drawCenteredString(
+                GraphicsWriter.drawCenteredString(
                         graphics,
                         "("+x+","+y+")",
                         new Rectangle( (int) (x*scale+gameField.x), (int) (y*scale), (int) scale, (int) scale),
@@ -106,39 +105,10 @@ public class GameRenderer {
 
     public void renderCannons(Graphics2D graphics){
 
-
+        EntityRenderer entityRenderer = new EntityRenderer(graphics);
         for( Cannon cannon : game.getCannons() ){
-            PointD translatedPos = translate(cannon.getPos());
-            double translatedScale = cannon.getScale()*scale;
-
-
-            graphics.setColor(CANNON_COLOR);
-            fillCenteredCircle(graphics, translatedPos, translatedScale);
-
-            double aimScale = translatedScale * CANNON_AIM_SCALE;
-
-            double aimX = translatedPos.x + (translatedScale/2-aimScale/2) * Math.cos(cannon.getFacing());
-            double aimY = translatedPos.y + (translatedScale/2 -aimScale/2) * Math.sin(cannon.getFacing());
-
-            graphics.setColor(CANNON_AIM_COLOR);
-            fillCenteredCircle(graphics, aimX, aimY, aimScale);
+            entityRenderer.renderCannon(translate(cannon.getPos()), scale, cannon.getFacing() );
         }
-
-    }
-
-    public void renderPlayerAim(Graphics2D graphics){
-        Player player = game.getPlayer();
-
-        double playerX = player.getX()*scale+gameField.x;
-        double playerY = player.getY()*scale+gameField.y;
-        double playerRadius = PLAYER_SCALE * scale / 2;
-        double aimScale = AIM_SCALE * scale;
-
-        double aimX = playerX + (playerRadius-aimScale/2) * Math.cos(player.getFacing());
-        double aimY = playerY + (playerRadius-aimScale/2) * Math.sin(player.getFacing());
-
-        graphics.setColor(AIM_COLOR);
-        fillCenteredCircle(graphics, aimX, aimY, aimScale);
     }
 
 
@@ -171,15 +141,15 @@ public class GameRenderer {
         return point;
     }
 
-    //TODO: REMOVE THIS
 
+
+    //TODO: REMOVE THIS
     public void fillCenteredCircle(Graphics2D g, PointD point, double diameter){
         double radius = diameter/2.;
         int drawX = (int) (point.x - radius);
         int drawY = (int) (point.y - radius);
         g.fillOval(drawX, drawY, (int) diameter, (int) diameter);
     }
-
     public void fillCenteredCircle(Graphics2D g, double x, double y, double diameter){
         fillCenteredCircle(g, new PointD(x,y), diameter
         );
@@ -193,7 +163,7 @@ public class GameRenderer {
 
         double x = screen.width/2.;
 
-        Drawer drawer = new Drawer(graphics, new Font( FONT, Font.BOLD, (int) (screen.width*LOST_SCREEN_TITLE_SCALE) ) );
+        GraphicsWriter drawer = new GraphicsWriter(graphics, new Font( FONT, Font.BOLD, (int) (screen.width*LOST_SCREEN_TITLE_SCALE) ) );
         drawer.setColor(LOST_SCREEN_TEXT_COLOR);
 
         drawer.drawString("YOU LOST", x, screen.height*.4);
@@ -211,7 +181,7 @@ public class GameRenderer {
 
         double x = screen.width/2.;
 
-        Drawer drawer = new Drawer(graphics, new Font( FONT, Font.BOLD, (int) (screen.width*WON_SCREEN_TITLE_SCALE) ) );
+        GraphicsWriter drawer = new GraphicsWriter(graphics, new Font( FONT, Font.BOLD, (int) (screen.width*WON_SCREEN_TITLE_SCALE) ) );
         drawer.setColor(WON_SCREEN_TEXT_COLOR);
 
         drawer.drawString("YOU WON", x, screen.height*.4);

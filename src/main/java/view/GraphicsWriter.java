@@ -4,14 +4,15 @@ import model.PointD;
 
 import java.awt.*;
 
-public class Drawer {
+public class GraphicsWriter {
 
     private Graphics2D graphics;
     private Font font;
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
     private VerticalAlignment verticalAlignment = VerticalAlignment.CENTER;
 
-    public Drawer(Graphics2D graphics, Font font){
+
+    public GraphicsWriter(Graphics2D graphics, Font font){
         this.graphics = graphics;
         this.font = font;
     }
@@ -44,7 +45,7 @@ public class Drawer {
     public static void drawCenteredString(Graphics g, String text, double x, double y, Font font) {
         FontMetrics metrics = g.getFontMetrics(font);
         int drawX = (int) (x - (metrics.stringWidth(text))/2.);
-        int drawY = (int) (y - (metrics.getHeight())/2.)+metrics.getAscent();
+        int drawY = (int) (y - metrics.getHeight()/2.)+metrics.getAscent();
         g.setFont(font);
         g.drawString(text, drawX, drawY);
     }
@@ -96,7 +97,7 @@ public class Drawer {
     }
 
 
-    // TODO: REMOVE THIS!
+    // TODO: Make this non-static
     public static void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
         // Get the FontMetrics
         FontMetrics metrics = g.getFontMetrics(font);
@@ -106,7 +107,7 @@ public class Drawer {
         int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
         // Set the font
         g.setFont(font);
-        // Drawer the String
+        // GraphicsWriter the String
         g.drawString(text, x, y);
     }
 

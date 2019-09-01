@@ -2,6 +2,9 @@ package settings;
 
 public class Settings {
 
+    public static final String GAME_FOLDER = "LevelMaker";
+    public static final String LEVEL_FOLDER = "levels";
+
     public static final boolean CANNON_DAMAGE_ENABLED = true;
 
     public static final long SIMULATION_FREQ = 16;

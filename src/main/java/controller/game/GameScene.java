@@ -15,13 +15,12 @@ import static settings.Settings.*;
 
 public class GameScene extends Scene {
 
-
-
-
     private Game game;
+
     private boolean renderGrid = false;
     private boolean renderCellNumber = false;
     private boolean renderMouse = false;
+
     private double scale = 1;
     private Rectangle gameField;
     private GameSimulator gameSimulator;
@@ -47,7 +46,6 @@ public class GameScene extends Scene {
         gameRenderer.renderWalls(graphics);
         gameRenderer.renderPlayer(graphics);
         gameRenderer.renderCannons(graphics);
-        gameRenderer.renderPlayerAim(graphics);
         if(renderMouse) gameRenderer.renderMouse(graphics);
         gameRenderer.renderProjectiles(graphics);
         gameRenderer.renderGameFieldBorder(graphics);

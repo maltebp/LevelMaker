@@ -1,7 +1,10 @@
 package controller;
 
+import controller.editor.EditorScene;
 import controller.game.GameScene;
 import model.editor.Level;
+import view.GraphicsWriter;
+
 import static settings.VisualSettings.*;
 import static settings.Settings.*;
 import static model.editor.Cell.*;
@@ -15,8 +18,7 @@ public class MainMenuScene extends Scene {
     private static final Color BACKGROUND_COLOR = Color.gray;
     private static final double TITLE_SCALE = 6;
     private static final Color TITLE_COLOR = Color.black;
-    private static final Color MENU_COLOR = Color.BLACK;
-    private static final Color MENU_COLOR_SELECTED = Color.RED;
+
     private static final double MENU_SCALE = 3;
     private static final double DETAILS_SCALE = 1;
 
@@ -27,20 +29,12 @@ public class MainMenuScene extends Scene {
 
         menu.addOption("Play", () -> {
             System.out.println("Option chosen: Play");
-
-            Level level = new Level(X_CELLS, Y_CELLS);
-            level.setCell(2,2, PLAYER);
-            level.setCell(4,4, WALL);
-            level.setCell(10,5, CANNON);
-            level.setCell(8,12, CANNON);
-
-            //level.setCell( 12, 2, WALL);
-
-            manager.setScene(new GameScene(level));
+            manager.setScene(new LoadLevelScene());
         });
 
         menu.addOption("Editor", () -> {
             System.out.println("Option chosen: Editor");
+            manager.setScene(new EditorScene());
         });
 
         menu.addOption("Settings", () ->
@@ -56,30 +50,27 @@ public class MainMenuScene extends Scene {
         graphics.setColor(BACKGROUND_COLOR);
         graphics.fillRect(0,0, screen.width, screen.height);
 
-        graphics.setColor(TITLE_COLOR);
-        drawCenteredString( graphics, "Level Maker", new Rectangle(screen.width, (int) (screen.height*0.4)), new Font(FONT, Font.BOLD, (int) (screen.width/100 * TITLE_SCALE) )  );
-        renderMenu(graphics, screen);
+        GraphicsWriter drawer = new GraphicsWriter(graphics, new Font(FONT, Font.BOLD, (int) (screen.width/100 * TITLE_SCALE) ) );
 
-        graphics.setColor(MENU_COLOR);
-        drawCenteredString( graphics, "Press escape to exit", new Rectangle(0, (int) (screen.height*0.9), screen.width, (int) (screen.height*0.1)), new Font(FONT, Font.BOLD, (int) (screen.width/100 * DETAILS_SCALE) )  );
-    }
+        // Title
+        drawer.setColor(TITLE_COLOR);
+        drawer.drawString( "Level Maker", screen.width/2., screen.height*0.2);
 
-    public void renderMenu(Graphics2D graphics, Dimension screen){
+        // Detail
+        drawer.setFontSize(screen.width/100.*DETAILS_SCALE);
+        drawer.setColor(MENU_COLOR);
+        drawer.drawString("Press escape to exit", screen.width/2., screen.height*0.9);
+
+        // Menu
+        drawer.setFontSize(screen.width/100.*MENU_SCALE);
+        double y = screen.height * 0.3;
         double optionHeight = 0.1;
 
-        Rectangle rectangle = new Rectangle(0, (int) (screen.height * 0.3), screen.width, (int) (screen.height*optionHeight) );
-        Font font = new Font(FONT, Font.BOLD, (int) (screen.width/100 * MENU_SCALE));
-
         for( MenuList.Option option : menu.getOptions()){
-            rectangle.translate(0, (int) (optionHeight*screen.height) );
-            graphics.setColor( option.isHovered() ? MENU_COLOR_SELECTED : MENU_COLOR );
-            drawCenteredString(graphics, option.getTitle(), rectangle, font);
+            y += screen.height * optionHeight;
+            drawer.setColor( option.isHovered() ? MENU_COLOR_SELECTED : MENU_COLOR );
+            drawer.drawString(option.getTitle(), screen.width/2., y);
         }
-    }
-
-    @Override
-    public void simulate() {
-
     }
 
     @Override

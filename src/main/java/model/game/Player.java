@@ -1,5 +1,7 @@
 package model.game;
 
+import model.PointD;
+
 import java.awt.*;
 import java.util.LinkedList;
 
@@ -61,6 +63,10 @@ public class Player {
             this.x = x;
             this.y = y;
         }
+    }
+
+    public PointD getPos(){
+        return new PointD(x,y);
     }
 
     public double getFacing() {
