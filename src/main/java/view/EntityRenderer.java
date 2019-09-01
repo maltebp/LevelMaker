@@ -1,6 +1,5 @@
 package view;
 
-import javafx.geometry.Pos;
 import model.PointD;
 
 import java.awt.*;
