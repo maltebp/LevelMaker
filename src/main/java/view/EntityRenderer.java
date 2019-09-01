@@ -19,8 +19,6 @@ public class EntityRenderer {
 
     public void renderPlayer( PointD pos, double scale, double facing) {
 
-
-        asdaosdkasokd
         double adjustedScale = scale * PLAYER_SCALE;
 
         drawer.setColor(PLAYER_COLOR);
