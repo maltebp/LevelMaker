@@ -136,15 +136,12 @@ public class EditorScene extends Scene {
                     nameBuilder.removeLastCharacter();
                     break;
                 default:
-
                     if( keyCode >= VK_A && keyCode <= VK_Z ){
                         if(!keyboard.isPressed(VK_SHIFT)){
                             keyCode += 32; // Changing to small letter
                         }
                     }
-
                     nameBuilder.addCharacter((char) keyCode);
-
                     break;
             }
 
@@ -163,12 +160,10 @@ public class EditorScene extends Scene {
                     break;
             }
         }
-
-
-
     }
 
-    public void placeEntity(Cell cell, int x, int y){
+
+    private void placeEntity(Cell cell, int x, int y){
         editor.getLevel().setCell(x,y, cell);
     }
 }

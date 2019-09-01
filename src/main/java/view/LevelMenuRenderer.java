@@ -2,12 +2,10 @@ package view;
 
 import controller.MenuList;
 import model.PointD;
-import model.editor.Level;
 
 import java.awt.*;
 import java.util.List;
 import static settings.VisualSettings.*;
-import static controller.MenuList.*;
 
 public class LevelMenuRenderer {
 

@@ -50,7 +50,7 @@ public class FileNameBuilder {
         text = "";
     }
 
-    private boolean validateCharacter(char character){
+    public boolean validateCharacter(char character){
         if( character < 48) return false;
         if( character > 57 && character < 65) return false;
         if( character > 90 && character < 97) return false;
