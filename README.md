@@ -1,7 +1,8 @@
 # Level Maker
 A small top-down shooter game, where you create your own levels with the build-in level editor
 
-[Latest Release jar](/owner/name/releases/latest/download/levelMaker.zip)
+[Latest Release jar](/owner/name/releases/latest/download/levelMaker.jar
+)
 
 ## Entities
 #### Player
